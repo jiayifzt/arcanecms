@@ -1,9 +1,8 @@
 <?php
     // Application flag
-    define('SPF', true);
+    define('ARCANE', true);
 
-    // https://twitter.com/#!/marcoarment/status/59089853433921537
-    date_default_timezone_set('America/Chicago');
+    date_default_timezone_set('America/Chicago'); //TODO: Make this a config option.
 
     // Determine our absolute document root
     define('DOC_ROOT', realpath(dirname(__FILE__) . '/../'));
@@ -30,7 +29,7 @@
         DBSession::register();
 
     // Initialize our session
-    session_name('spfs');
+    session_name('arcanesesh');
     session_start();
 
     // Initialize current user
@@ -40,5 +39,5 @@
     $Error = Error::getError();
 
     // If you need to bootstrap a first user into the database, you can run this line once
-    //Auth::createNewUser('admin', 'password');
-	
+    //Auth::createNewUser('admin', 'password'); //DEBUG purposes only, obviously not a safe option.
+?>	

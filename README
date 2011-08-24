@@ -1,0 +1,46 @@
+================================================================================
+					 _                              ____ __  __ ____  
+					/ \   _ __ ___ __ _ _ __   ___ / ___|  \/  / ___| 
+				   / _ \ | '__/ __/ _` | '_ \ / _ \ |   | |\/| \___ \ 
+				  / ___ \| | | (__ (_| | | | |  __/ |___| |  | |___) |
+				 /_/   \_\_|  \___\__,_|_| |_|\___|\____|_|  |_|____/ 
+									ArcaneCMS
+					https://github.com/maxfierke/arcanecms
+						http://www.maxfierke.com/projects
+================================================================================
+
+DISCLAIMER: I take no responsibility if this bricks your Axim, causes it to
+            spontaneously combust, grow legs and run away, or otherwise causes
+            damage in any way. Use it at your own peril.
+
+   If you didn't download this from me (http://www.paulburton.eu) then please
+           direct any complaints at whoever you did download it from!
+
+--------------------------------------------------------------------------------
+
+Who are you?
+	http://www.maxfierke.com/about
+	
+What is this?
+    ArcaneCMS is a content management system written in PHP. It's a rewrite of 
+	my former, personal content management system. ArcaneCMS is designed to be lightweight, simple to implement into existing designs and site, and almost
+	invisible to the vistor (unlike certain CMSs *cough*JoomlaAndDrupal*cough*).
+
+Why?!?
+    Because I can :)
+
+How do I use it?
+    Short Answer: You can't.
+	Long Answer: You can, but I haven't really gotten far enough to make it
+				 convenient for you. There's no installer, there's no admin
+				 interface (yet). There's also no documentation. I will not
+				 help you implement it because its not supposed to be 
+				 implemented at this stage.
+
+Will you add <insert feature here>?
+    Definitely maybe. If you make a good case for it, I'll put it on my todo
+	list.
+
+How can I help?
+    1) Email me at max@maxfierke.com
+	2) Fork it and if I like your changes, I'll merge 'em.

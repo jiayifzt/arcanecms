@@ -14,9 +14,9 @@
         // Add your server hostnames to the appropriate arrays. ($_SERVER['HTTP_HOST'])
         // Each array item should be a regular expression. This gives you the option to detect a whole range
         // of server names if needed. Otherwise, you can simply detect a single server like '/^servername\.com$/'
-        private $productionServers = array('/^your-domain\.com$/');
+        private $productionServers = array('/^example\.com$/');
         private $stagingServers    = array();
-        private $localServers      = array();
+        private $localServers      = array('/^example\.dev$/');
 
         // Standard Config Options...
 
@@ -83,6 +83,16 @@
             // Settings for the Auth class
             $this->authDomain = $_SERVER['HTTP_HOST'];
             $this->authSalt   = '';
+			
+			// The name of the site.  The site name is displayed in the header of themes without a header image.
+			define('ARCANE_SITE_NAME', 'Example.com');
+			// The tagline that appears below the site name in themes without a header image.
+			define('ARCANE_TAGLINE', 'Examplizing Examples Through Examplehood');
+			// Default theme to load. (Deprecated in the future in favor of SQL)
+			define('ARCANE_DEFAULT_THEME', 'example');
+			
+			define('THEMEENGINE_X_REQUESTED_WITH', true);
+
         }
 
         // Add code/variables to be run only on production servers
@@ -90,7 +100,7 @@
         {
             ini_set('display_errors', '0');
 
-            define('WEB_ROOT', '/');
+            define('WEB_ROOT', '');
 
             $this->dbReadHost      = 'localhost';
             $this->dbWriteHost     = 'localhost';

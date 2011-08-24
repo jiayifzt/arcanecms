@@ -1,9 +1,9 @@
-<?PHP
+<?php
     // Application flag
     define('SPF', true);
 
     // https://twitter.com/#!/marcoarment/status/59089853433921537
-    date_default_timezone_set('America/Los_Angeles');
+    date_default_timezone_set('America/Chicago');
 
     // Determine our absolute document root
     define('DOC_ROOT', realpath(dirname(__FILE__) . '/../'));
@@ -40,4 +40,4 @@
     $Error = Error::getError();
 
     // If you need to bootstrap a first user into the database, you can run this line once
-    // Auth::createNewUser('username', 'password');
+    //Auth::createNewUser('admin', 'password');

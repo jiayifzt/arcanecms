@@ -1,7 +1,7 @@
 <?PHP
     class Auth
     {
-        const SALT = 'insert some random text here';
+        const SALT = 'Put lots of random characters here. Try a sha512 or skein hash of a really long, random phrase.';
 
         private static $me;
 
@@ -9,7 +9,7 @@
         public $username;
         public $user;
         public $expiryDate;
-        public $loginUrl = '/login.php'; // Where to direct users to login
+        public $loginUrl = '/login'; // Where to direct users to login
 
         private $nid;
         private $loggedIn;

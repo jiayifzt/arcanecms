@@ -1,4 +1,4 @@
-<?PHP
+<?php
     class Auth
     {
         const SALT = 'Put lots of random characters here. Try a sha512 or skein hash of a really long, random phrase.';
@@ -342,3 +342,4 @@
             return md5(rand() . microtime());
         }
     }
+?>

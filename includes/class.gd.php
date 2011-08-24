@@ -1,4 +1,4 @@
-<?PHP
+<?php
     // Simple wrapper class for GD
     class GD
     {
@@ -178,3 +178,4 @@
             return $this->crop($x, $y, $w, $h);
         }
     }
+?>

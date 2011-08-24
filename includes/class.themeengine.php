@@ -1,9 +1,17 @@
 <?php
 /*
- * ThemeEngine v1.0.0 - PHP theming engine for ArcaneCMS
+ * ThemeEngine - PHP theming engine for ArcaneCMS
  *
- * Derived from Enrober by Peter Johnson.
+ * Copyright (c) 2011 Max Fierke
  *
+ * See LICENSE for more licensing information.
+ *
+ * Derived from Enrober by Peter Johnson. Heavily modified from its source form.
+ * 
+ * Copyright (c) 2011 Peter Johnson
+ *
+ *     http://www.uselesscode.org/php/enrober/
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -16,19 +24,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-/**
- * @package arc-themeengine
- * @author Peter Johnson, Max Fierke
- * @copyright Copyright (c) 2011, Peter Johnson, Max Fierke
- * @version 1.0.0
- * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
- * @link http://www.uselesscode.org/php/themeengine/
- */
-
-/**
- */
-
 
 require_once('./includes/class.config.php');
 

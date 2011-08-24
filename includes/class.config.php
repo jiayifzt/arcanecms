@@ -1,4 +1,4 @@
-<?PHP
+<?php
     // The Config class provides a single object to store your application's settings.
     // Define your settings as public members. (We've already setup the standard options
     // required for the Database and Auth classes.) Then, assign values to those settings
@@ -190,3 +190,4 @@
             return false;
         }
     }
+?>

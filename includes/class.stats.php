@@ -1,4 +1,4 @@
-<?PHP
+<?php
     // Track your page with...
     // Stats::track($some_page_title);
 
@@ -156,3 +156,4 @@
                          "useragent" => $user_browser);
         }
     }
+?>

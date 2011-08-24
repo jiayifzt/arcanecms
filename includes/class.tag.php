@@ -1,5 +1,4 @@
-<?PHP
-    class Tag extends DBObject
+<?php    class Tag extends DBObject
     {
         public function __construct($id = '')
         {
@@ -12,3 +11,4 @@
             }
         }
     }
+?>

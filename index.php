@@ -2,9 +2,6 @@
 
 require 'includes/master.inc.php';
 
-// Include Enrober, this automatically creates the $enrober object for you.
-include_once 'includes/class.themeengine.php';
-
 $req = explode('/', $_SERVER['REQUEST_URI']);
 
 if(empty($req[1]))

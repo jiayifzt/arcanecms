@@ -1,4 +1,4 @@
-<?PHP
+<?php
     class Loop
     {
         private $index;
@@ -46,3 +46,4 @@
     //
     // while($row = mysql_fetch_array($result))
     //      echo "<tr color'$color'>the row colors will alternate</tr>";
+?>

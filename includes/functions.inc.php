@@ -1,4 +1,4 @@
-<?PHP
+<?php
     function set_option($key, $val)
     {
         $db = Database::getDatabase();
@@ -805,3 +805,4 @@
         $ext = pathinfo($filename, PATHINFO_EXTENSION);
         return isset($mime_types[$ext]) ? $mime_types[$ext] : $default;
     }
+?>

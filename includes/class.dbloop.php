@@ -1,5 +1,5 @@
-<?PHP
-    class DBLoop implements Iterator, Countable
+<?php
+class DBLoop implements Iterator, Countable
     {
         private $position;
         private $className;
@@ -76,3 +76,4 @@
             return mysql_num_rows($this->result);
         }
     }
+?>

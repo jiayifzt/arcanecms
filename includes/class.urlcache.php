@@ -1,5 +1,4 @@
-<?PHP
-    abstract class URLCache
+<?php    abstract class URLCache
     {
         // You can't call me
         private function __construct() {}
@@ -78,3 +77,4 @@
             return json_decode($str);
         }
     }
+?>

@@ -1,4 +1,4 @@
-<?PHP
+<?php
     class RSS
     {
         public $title;
@@ -191,3 +191,4 @@
             return $str;
         }
     }
+?>

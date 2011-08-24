@@ -195,7 +195,7 @@ class ThemeEngine {
 	 * of a new instance.
 	 * @returns object
 	 */
-	public static function singleton() {
+	public static function getThemeEngine() {
 		if(!isset(self::$instance)) {
 			$c = __CLASS__;
 			self::$instance = new $c;
@@ -877,6 +877,4 @@ class ThemeEngine {
 		return $out;
 	}
 }
-// Create our $themeengine object for scripts to invoke
-$themeengine = ThemeEngine::singleton();
 ?>

@@ -1,4 +1,4 @@
-<?PHP
+<?php
     class Pager implements Iterator
     {
         // Stuff you set...
@@ -91,3 +91,4 @@
             return $this->current() !== false;
         }
     }
+?>

@@ -89,7 +89,7 @@ if($page == 'login') {
 	$row = $db->getRow($result);
 	
 	if($row['data']==NULL) {
-		redirect(DOC_ROOT . '/404');
+		redirect(WEB_ROOT . '/404');
 	} else {
 		// Tell ThemeEngine to start buffering the page, set the page's title
 		$themeengine->go(ARCANE_SITE_NAME.' - '.ucwords($row['title']));

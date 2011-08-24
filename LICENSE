@@ -1,5 +1,4 @@
-*  
-*  Unless otherwise noted:
+*  ArcaneCMS
 *
 *  Copyright (c) 2011 Max Fierke <max@maxfierke.com>
 * 
@@ -16,7 +15,8 @@
 *  limitations under the License.
 *
 *
-* Portions based on Simple PHP Framework are released under the MIT License <http://www.opensource.org/licenses/mit-license.php> 
+* Portions based on Simple PHP Framework are used and were modified in accordance with the MIT License 
+* <http://www.opensource.org/licenses/mit-license.php> 
 *
 * Copyright (c) 2006 - 2011, Simple PHP Framework <tylerhall@gmail.com>)
 *
@@ -24,7 +24,6 @@
 *
 * Files Affected:
 *     * includes/class.auth.php
-*     * includes/class.browserinfo.php
 *     * includes/class.config.php
 *     * includes/class.database.php
 *     * includes/class.dbloop.php

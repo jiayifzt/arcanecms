@@ -17,6 +17,7 @@ What is this?
     my former personal content management system. ArcaneCMS is designed to be 
     lightweight, simple to implement into existing designs and sites, and almost
     invisible to the visitor (unlike certain CMSs *cough*JoomlaAndDrupal*cough*).
+    ArcaneCMS runs on the Simple PHP Framework. More details in LICENSE.
 
 Why?!?
     Because I can :)
@@ -30,7 +31,7 @@ How do I use it?
                  through the code and the included database file.
 What are the requirements?
     PHP 5+
-    SQL server (MySQL only at the moment, but I'm planning on adding SQLite)
+    SQL server (MySQL only at the moment, but I'm planning on switching to PDO)
     A webserver with rewrite functionality (I officially support Apache and nginx)
 
 Where/How can I use this?

@@ -23,7 +23,8 @@ Who are you?
 	
 What is this?
     ArcaneCMS is a content management system written in PHP. It's a rewrite of 
-	my former, personal content management system. ArcaneCMS is designed to be lightweight, simple to implement into existing designs and site, and almost
+	my former, personal content management system. ArcaneCMS is designed to be 
+	lightweight, simple to implement into existing designs and site, and almost
 	invisible to the vistor (unlike certain CMSs *cough*JoomlaAndDrupal*cough*).
 
 Why?!?

@@ -260,7 +260,7 @@
             if($b['x'] < time())
                 return false;
 
-            $computed_sig = md5(str_rot13(base64_encode($ccookie)) . $b['x'] . self::SALT);
+            $computed_sig = hash('sha256',(str_rot13(base64_encode($ccookie)) . $b['x'] . self::SALT));
             if($computed_sig != $b['s'])
                 return false;
 
@@ -290,7 +290,7 @@
             if(!isset($_COOKIE['A']))
             {
                 srand(time());
-                $a = md5(rand() . microtime());
+                $a = hash('sha256', (rand() . microtime()));
                 setcookie('A', $a, $this->expiryDate, '/', Config::get('authDomain'));
             }
         }
@@ -303,7 +303,7 @@
             $c = base64_encode($c);
             $c = str_rot13($c);
 
-            $sig = md5($c . $this->expiryDate . self::SALT);
+            $sig = hash('sha256', ($c . $this->expiryDate . self::SALT));
             $b = "x={$this->expiryDate}&s=$sig";
             $b = base64_encode($b);
             $b = str_rot13($b);
@@ -333,13 +333,13 @@
 
         private static function hashedPassword($password)
         {
-            return md5($password . self::SALT);
+            return hash('sha256', ($password . self::SALT));
         }
 
         private static function newNid()
         {
             srand(time());
-            return md5(rand() . microtime());
+            return hash('sha256', (rand() . microtime()));
         }
     }
 ?>

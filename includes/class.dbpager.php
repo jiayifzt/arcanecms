@@ -1,4 +1,4 @@
-<?PHP
+<?php
     class DBPager extends Pager
     {
         private $itemClass;
@@ -25,3 +25,4 @@
             $this->records = array_values(DBObject::glob($this->itemClass, $this->pageSql . $limitSql));
         }
     }
+?>

@@ -5,6 +5,17 @@ CREATE TABLE `sessions` (
   PRIMARY KEY (`id`)
 );
 
+CREATE TABLE `pages` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(65) NOT NULL DEFAULT '',
+  `shortname` varchar(20) NOT NULL DEFAULT '',
+  `data` text NOT NULL,
+  `ownerid` int(11) NOT NULL,
+  `perm` varchar(3) NOT NULL DEFAULT '644',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `shortname` (`shortname`)
+);
+
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nid` varchar(32) NOT NULL DEFAULT '',

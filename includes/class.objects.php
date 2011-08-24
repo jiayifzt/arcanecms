@@ -1,4 +1,4 @@
-<?PHP
+<?php
     // Stick your DBOjbect subclasses in here (to help keep things tidy).
 
     class User extends DBObject
@@ -8,3 +8,4 @@
             parent::__construct('users', array('nid', 'username', 'password', 'level'), $id);
         }
     }
+?>

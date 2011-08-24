@@ -1,4 +1,4 @@
-<?PHP
+<?php
     class Error
     {
         // Singleton object. Leave $me alone.
@@ -271,3 +271,4 @@
             return true;
         }
     }
+?>

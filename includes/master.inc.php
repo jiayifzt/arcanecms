@@ -38,6 +38,9 @@
     // Object for tracking and displaying error messages
     $Error = Error::getError();
 
+    // Initialize ThemeEngine (Creates a singleton ThemeEngine)
+    $themeengine = ThemeEngine::getThemeEngine();
+
     // If you need to bootstrap a first user into the database, you can run this line once
     //Auth::createNewUser('admin', 'password'); //DEBUG purposes only, obviously not a safe option.
 ?>	

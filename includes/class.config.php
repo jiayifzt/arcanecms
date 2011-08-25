@@ -15,7 +15,7 @@
         // Each array item should be a regular expression. This gives you the option to detect a whole range
         // of server names if needed. Otherwise, you can simply detect a single server like '/^servername\.com$/'
         private $productionServers = array('/^example\.com$/');
-        private $stagingServers    = array();
+        private $stagingServers    = array('/^beta\.example\.com$/');
         private $localServers      = array('/^example\.dev$/');
 
         // Standard Config Options...
@@ -84,14 +84,14 @@
             $this->authDomain = $_SERVER['HTTP_HOST'];
             $this->authSalt   = '';
 			
-			// The name of the site.  The site name is displayed in the header of themes without a header image.
-			define('ARCANE_SITE_NAME', 'Example.com');
-			// The tagline that appears below the site name in themes without a header image.
-			define('ARCANE_TAGLINE', 'Examplizing Examples Through Examplehood');
-			// Default theme to load. (Deprecated in the future in favor of SQL)
-			define('ARCANE_DEFAULT_THEME', 'example');
+	   // The name of the site.  The site name is displayed in the header of themes without a header image.
+	   define('ARCANE_SITE_NAME', 'Example.com');
+	   // The tagline that appears below the site name in themes without a header image.
+	   define('ARCANE_TAGLINE', 'Examplizing Examples Through Examplehood');
+	   // Default theme to load.
+	   define('ARCANE_DEFAULT_THEME', 'example');
 			
-			define('THEMEENGINE_X_REQUESTED_WITH', true);
+	   define('THEMEENGINE_X_REQUESTED_WITH', true);
 
         }
 
@@ -100,7 +100,7 @@
         {
             ini_set('display_errors', '0');
 
-            define('WEB_ROOT', '');
+            define('WEB_ROOT', ''); // Set this to be relative to $_SERVER['HTTP_HOST']
 
             $this->dbReadHost      = 'localhost';
             $this->dbWriteHost     = 'localhost';
@@ -119,7 +119,7 @@
             ini_set('display_errors', '1');
             ini_set('error_reporting', E_ALL);
 
-            define('WEB_ROOT', '');
+            define('WEB_ROOT', ''); // Set this to be relative to $_SERVER['HTTP_HOST']
 
             $this->dbReadHost      = 'localhost';
             $this->dbWriteHost     = 'localhost';
@@ -138,7 +138,7 @@
             ini_set('display_errors', '1');
             ini_set('error_reporting', E_ALL);
 
-            define('WEB_ROOT', '');
+            define('WEB_ROOT', ''); // Set this to be relative to $_SERVER['HTTP_HOST']
 
             $this->dbReadHost      = 'localhost';
             $this->dbWriteHost     = 'localhost';

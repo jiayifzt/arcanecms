@@ -25,7 +25,7 @@
  * limitations under the License.
  */
 
-require_once 'includes/class.config.php';
+require_once DOC_ROOT . 'includes/class.config.php';
 
 
 /**

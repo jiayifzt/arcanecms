@@ -25,7 +25,7 @@
  * limitations under the License.
  */
 
-require_once('./includes/class.config.php');
+require_once 'includes/class.config.php';
 
 
 /**
@@ -185,11 +185,15 @@ class ThemeEngine {
 	 * The canonical URL for this page
 	 */
 	private $url = null;
+	/**
+	 *
+	 */
+	private $siteurl = null;
 
 	/**
-	 * Creates the $themeengine singleton object.
+	 * Creates the $ThemeEngine singleton object.
 	 * Automatically called when themeengine.php is included.
-	 * The created object is assigned to the $themeengine variable.
+	 * The created object is assigned to the $ThemeEngine variable.
 	 * Because ThemeEngine is a singleton, further calls to singleton()
 	 * will result in a reference to the original object instead
 	 * of a new instance.
@@ -226,12 +230,12 @@ class ThemeEngine {
 	 * set before go() is called.
 	 *
 	 * <code>
-	 * $themeengine->set_theme('pressy'); // Change the theme from the default to the 'pressy' theme
-	 * $themeengine->go();
+	 * $ThemeEngine->set_theme('pressy'); // Change the theme from the default to the 'pressy' theme
+	 * $ThemeEngine->go();
 	 *
 	 * // or
-	 * $themeengine->set_theme(); // Explicitly use the default theme.
-	 * $themeengine->go();
+	 * $ThemeEngine->set_theme(); // Explicitly use the default theme.
+	 * $ThemeEngine->go();
 	 * </code>
 	 *
 	 * @param string $theme A string containing the name of the theme to wrap the page in.  If not provided the value of the ARCANE_DEFAULT_THEME constant from the config file is used.
@@ -260,7 +264,7 @@ class ThemeEngine {
 	 * <?php
 	 * echo '<ul>';
 	 * // list currently installed themes
-	 * foreach($themeengine->get_themes() as $t) {
+	 * foreach($ThemeEngine->get_themes() as $t) {
 	 * 	echo "<li>$t</li>";
 	 * }
 	 * echo '</ul>';
@@ -327,8 +331,8 @@ class ThemeEngine {
 	 * @param mixed $keywords What to put in the <meta> keywords tag.  Either a string of comma delimited keywords or an array of keywords
 	 *
 	 * <code>
-	 * $themeengine->add_keywords('keyword1,keyword2');
-	 * $themeengine->add_keywords(array('keyword3', 'keyword4'));
+	 * $ThemeEngine->add_keywords('keyword1,keyword2');
+	 * $ThemeEngine->add_keywords(array('keyword3', 'keyword4'));
 	 * // the %keywords% template tag will now output
 	 * // <meta name="keywords" content="keyword1,keyword2,keyword3,keyword4">
 	 * </code>
@@ -352,8 +356,8 @@ class ThemeEngine {
 	 *
 	 * @param string $desc What to put in the <meta> description tag
 	 * <code>
-	 * $themeengine->add_desc('This is a page description.');
-	 * $themeengine->add_desc('This description just replaced the old one.');
+	 * $ThemeEngine->add_desc('This is a page description.');
+	 * $ThemeEngine->add_desc('This description just replaced the old one.');
 	 * </code>
 	 */
 	public function add_desc($desc) {
@@ -367,8 +371,8 @@ class ThemeEngine {
 	 *
 	 * <code>
 	 * <?php
-	 * $themeengine->go(); // Invoke ThemeEngine without a page title
-	 * $themeengine->go('Example'); // Invoke ThemeEngine with the page title 'Example'
+	 * $ThemeEngine->go(); // Invoke ThemeEngine without a page title
+	 * $ThemeEngine->go('Example'); // Invoke ThemeEngine with the page title 'Example'
 	 * ?>
 	 * </code>
 	 *
@@ -395,14 +399,13 @@ class ThemeEngine {
 		$desc = $this->desc;
 		$keywords = $this->keywords;
 
-		// normal
 		$js = $this->get_js();
 		$css = $this->get_css();
-
 		$url = $this->url;
-
+        //$siteurl = $this->siteurl;
+		
 		$theme_fs_path = DOC_ROOT . DIRECTORY_SEPARATOR . "themes" . DIRECTORY_SEPARATOR . "$theme" . DIRECTORY_SEPARATOR;
-		$theme_uri_path = WEB_ROOT . DIRECTORY_SEPARATOR . "themes" . DIRECTORY_SEPARATOR . "$theme";
+		$theme_uri_path = ARCANE_SITE_URL . "/themes/$theme";
 
 		if ($title !== '') {
 			$title = '<title>' . (htmlentities($title)) . '</title>';
@@ -416,7 +419,6 @@ class ThemeEngine {
 		if ($keywords !== '') {
 			$this->add_tag('keywords', '<meta name="keywords" content="' . htmlentities($keywords) . '">', 1, false);
 		}
-
 		$generated = 'Page generated ' . date(DATE_RFC822);
 
 		if ($js !== '') {
@@ -430,10 +432,16 @@ class ThemeEngine {
 		if ($url !== null) {
 			$this->add_tag('canonical', '<link rel="canonical" href="' . $url . '">', 1, false);
 		}
+		
+		// Use the %siteurl% tag to link to the root of your Arcane powered site.
+		// e.g. http://www.example.com/arcane (note the missing trailing slash)
+		$this->add_tag('siteurl', ARCANE_SITE_URL, 0, false);
+		
 
 		$this->add_tag('themepath', $theme_uri_path, 0, false);
 		$this->add_tag('generated', $generated , 0);
 
+		
 		$tag_head_stack = $this->tag_stack_head;
 		$tag_foot_stack = $this->tag_stack_foot;
 
@@ -589,16 +597,16 @@ class ThemeEngine {
 	 * <code>
 	 * <?php
 	 * // Linked as a regular stylesheet
-	 * $themeengine->add_css('extra.css');
+	 * $ThemeEngine->add_css('extra.css');
 	 *
 	 * // Linked as a print-only stylesheet
-	 * $themeengine->add_css('print.css', array('media' => 'print');
+	 * $ThemeEngine->add_css('print.css', array('media' => 'print');
 	 *
 	 * // Linked as an alternative stylesheet
-	 * $themeengine->add_css('alternate.css', array('rel' => 'alt', 'title' => 'Alternate layout');
+	 * $ThemeEngine->add_css('alternate.css', array('rel' => 'alt', 'title' => 'Alternate layout');
 	 *
 	 * // Not added because it is a duplicate
-	 * $themeengine->add_css('extra.css');
+	 * $ThemeEngine->add_css('extra.css');
 	 * ?>
 	 * </code>
 	 *
@@ -654,8 +662,8 @@ class ThemeEngine {
 	 *
 	 * <code>
 	 * <?php
-	 * $themeengine->add_js('http://cdn.example.com/1.5/jquery.min.js'); // Import jQuery from a CDN
-	 * $themeengine->add_js('blink.js'); // Add a JavaScript file that is in the same
+	 * $ThemeEngine->add_js('http://cdn.example.com/1.5/jquery.min.js'); // Import jQuery from a CDN
+	 * $ThemeEngine->add_js('blink.js'); // Add a JavaScript file that is in the same
 	 *                               // directory as the page using it.
 	 * ?>
 	 * </code>
@@ -696,7 +704,7 @@ class ThemeEngine {
 	 * // Apply the HTML Tidy callback to the body of the
 	 * // page to fix any broken markup (Requires the Tidy
 	 * // extension for PHP).  The entire document is processed as one piece.
-	 * $themeengine->add_filter('ob_tidyhandler', THEMEENGINE_FILTER_EVERYTHING);
+	 * $ThemeEngine->add_filter('ob_tidyhandler', THEMEENGINE_FILTER_EVERYTHING);
 	 *
 	 * // This filter function collapses any whitespace
 	 * // between HTML tags down to a single space
@@ -706,7 +714,7 @@ class ThemeEngine {
 	 *
 	 * // add our custom filter, filtering everything
 	 * // including the header and footer.  Each section is filtered by itself.
-	 * $themeengine->add_filter('collapse_whitespace', THEMEENGINE_FILTER_ALL);
+	 * $ThemeEngine->add_filter('collapse_whitespace', THEMEENGINE_FILTER_ALL);
 	 *
 	 * // Censor the words foo, bar and baz.
 	 * function censor($in) {
@@ -716,7 +724,7 @@ class ThemeEngine {
 	 * 	return $out;
 	 * }
 	 *
-	 * $themeengine->add_filter('censor'); // Implicitly only filtering the body of the page.
+	 * $ThemeEngine->add_filter('censor'); // Implicitly only filtering the body of the page.
 	 * ?>
 	 * </code>
 	 */
@@ -768,12 +776,13 @@ class ThemeEngine {
 	 * <li>%desc% - The page's description <meta> tag</li>
 	 * <li>%keywords% - The page's keywords <meta> tag</li>
 	 * <li>%themepath% - The URI for the directory that the current theme is stored in, useful for including the theme's CSS file.</li>
-	 * <li>%css% - Any <link> tags for CSS files added via $themeengine->add_css()</li>
-	 * <li>%js% - Any <script> tags for JavaScript files added via $themeengine->add_js()</li>
+	 * <li>%css% - Any <link> tags for CSS files added via $ThemeEngine->add_css()</li>
+	 * <li>%js% - Any <script> tags for JavaScript files added via $ThemeEngine->add_js()</li>
 	 * <li>%generated% - Inserts a "Generated on" or "Cached on" message depending on whether or not caching is enabled on the current page.</li>
-	 * <li>%canonical% - Where in the head to insert the Canonical URL if one was set with $themeengine->url()</li>
+	 * <li>%canonical% - Where in the head to insert the Canonical URL if one was set with $ThemeEngine->url()</li>
 	 * <li>%site_name% - The value for ARCANE_SITE_NAME specified in themeengine-config.php</li>
-	 * <li>%tagline% - The value for THEMEENGINE_TAGLINE specified in themeengine-config.php</li>
+	 * <li>%tagline% - The value for ARCANE_TAGLINE specified in class.config.php</li>
+	 * <li>%siteurl% - The value for ARCANE_SITE_URL specified in class.config.php</li>
 	 * </ul>
 	 * 
 	 * If you add your own tags to your templates you can then set their value for any particular page with add_tag().
@@ -781,21 +790,21 @@ class ThemeEngine {
 	 *
 	 * <code>
 	 * <?php
-	 * $themeengine->add_tag('foo', 'bar'); // Adds the text "bar" anywhere in the 
+	 * $ThemeEngine->add_tag('foo', 'bar'); // Adds the text "bar" anywhere in the 
 	 *                                  // header or footer that "%foo%" appears
-	 * $themeengine->add_tag('foo', 'bar', 0); // Same as previous
-	 * $themeengine->add_tag('foo', 'bar', 1); // Adds the text "bar" only in the header
-	 * $themeengine->add_tag('foo', 'bar', 2); // Adds the text "bar" only in the footer
+	 * $ThemeEngine->add_tag('foo', 'bar', 0); // Same as previous
+	 * $ThemeEngine->add_tag('foo', 'bar', 1); // Adds the text "bar" only in the header
+	 * $ThemeEngine->add_tag('foo', 'bar', 2); // Adds the text "bar" only in the footer
 	 *
 	 * // By default anything added to a theme tag is run through htmlentities()
 	 * // to prevent XSS attacks. If you need to use HTML you can set the $sanitize
 	 * // parameter to false but if you are including any user generated content
 	 * // in it you will need to sanitize it yourself!
-	 * $themeengine->add_tag('foo', '<em>bar</em>'); // Adds the text "bar", wrapped
+	 * $ThemeEngine->add_tag('foo', '<em>bar</em>'); // Adds the text "bar", wrapped
 	 *                                           // in a text representation of em tags:
 	 *                                           // "&lt;em&gt;bar&lt;/em&gt;"
-	 * $themeengine->add_tag('foo', '<em>bar</em>', 0, true); // Same as previous
-	 * $themeengine->add_tag('foo', '<em>bar</em>', 0, false); // Adds the text "bar",
+	 * $ThemeEngine->add_tag('foo', '<em>bar</em>', 0, true); // Same as previous
+	 * $ThemeEngine->add_tag('foo', '<em>bar</em>', 0, false); // Adds the text "bar",
 	 *                                                     // wrapped in em tags:
 	 *                                                     // "<em>bar</em>"
 	 * ?>
@@ -834,11 +843,11 @@ class ThemeEngine {
 	 * Google's webmaster central has more information about {@link http://www.google.com/support/webmasters/bin/answer.py?answer=139066 canonical URLs}.
 	 *
 	 * <code>
-	 * $themeengine->url('index.php');
+	 * $ThemeEngine->url('index.php');
 	 * // or
-	 * $themeengine->url('/');
+	 * $ThemeEngine->url('/');
 	 * // or
-	 * $themeengine->url('http://www.example.com/');
+	 * $ThemeEngine->url('http://www.example.com/');
 	 * </code>
 	 *
 	 * @param string $url The url to set as the canonical url.

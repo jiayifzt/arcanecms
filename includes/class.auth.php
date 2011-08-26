@@ -1,4 +1,7 @@
 <?php
+
+	require_once './includes/class.config.php';
+	
     class Auth
     {
         const SALT = 'Put lots of random characters here. Try a sha512 or skein hash of a really long, random phrase.';
@@ -9,7 +12,7 @@
         public $username;
         public $user;
         public $expiryDate;
-        public $loginUrl = '/login'; // Where to direct users to login
+        public $loginUrl = '/login/'; // Where to direct users to login
 
         private $nid;
         private $loggedIn;
@@ -328,7 +331,7 @@
                 $url .= '?r=' . $full_url;
             }
 
-            redirect($url);
+            redirect(ARCANE_SITE_URL.$url);
         }
 
         private static function hashedPassword($password)

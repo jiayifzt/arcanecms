@@ -1,14 +1,18 @@
 <?php
 
-require 'includes/master.inc.php';
+require realpath(dirname(__FILE__) .'/includes/master.inc.php');
 
-$req = explode('/', $_SERVER['REQUEST_URI']);
+$req = null;
 
-if(empty($req[1]))
+if(!empty($_GET['page'])) {
+	$req = explode('/', $_GET['page']);
+}
+
+if(empty($req[0]))
 {
 	$page = 'home';
 } else {
-	$page = $req[1]; //1: store GET var in a new var
+	$page = $req[0];
 }
 
 if($page == 'login') {
@@ -30,7 +34,7 @@ if($page == 'login') {
     // Clean the submitted username before redisplaying it.
     $username = isset($_POST['username']) ? htmlspecialchars($_POST['username']) : '';
 	// Tell ThemeEngine to start buffering the page, set the page's title
-	$themeengine->go(ARCANE_SITE_NAME.' - Login');
+	$ThemeEngine->go(ARCANE_SITE_NAME.' - Login');
 	echo '<div id="loginForm">
     <form action="login" method="post">
         '.$Error.'
@@ -49,38 +53,33 @@ if($page == 'login') {
 			<br />
 			<p><input type="password" name="password" value="" id="password" class="textinput" /></p>
 		</div>
-		<div style="clear:both;"></div>
+		<div class="clear"></div>
 		<p><input type="submit" name="btnlogin" value="Login" id="btnlogin" class="button" /></p>
 		<input type="hidden" name="r" value="'.htmlspecialchars(@$_REQUEST['r']).'" id="r">
     </form>
 	</div>';
 } else if($page == 'logout') {
 	$Auth->logout();
-} else if($page == '404') {
-	$themeengine->go(ARCANE_SITE_NAME.' - 404');
+} else if($page == 'error404') {
+	$ThemeEngine->go(ARCANE_SITE_NAME.' - 404');
 	echo'<div class="errorpage">
 	<h1><span class="title_color1">Error 404:</span> <span class="title_color2">File Not Found</span></h1><br />
 	The requested file was not found on the server. It may have been moved or deleted. If you believe this was in error, please contact us and we will check it out. Also, contact the site from which you came to report a broken link.</div>';
-} else if($page == '403') {
-	$themeengine->go(ARCANE_SITE_NAME.' - 403');
+} else if($page == 'error403') {
+	$ThemeEngine->go(ARCANE_SITE_NAME.' - 403');
 	echo'<div class="errorpage">
 	<h1><span class="title_color1">Error 403:</span> <span class="title_color2">Forbidden</span></h1><br />
 	What you are doing is not allowed. Maybe we should call the cops. If you believe this was in error, please contact us and we will check it out.</div>';
-} else if($page == '401') {
-	$themeengine->go(ARCANE_SITE_NAME.' - 401');
+} else if($page == 'error401') {
+	$ThemeEngine->go(ARCANE_SITE_NAME.' - 401');
 	echo'<div class="errorpage">
 	<h1><span class="title_color1">Error 401:</span> <span class="title_color2">Authorization Required</span></h1><br />
 	An authorized session was not found. Please try again. If you believe this was in error, please contact us and we will check it out.</div>';
-} else if($page == '400') {
-	$themeengine->go(ARCANE_SITE_NAME.' - 400');
+} else if($page == 'error400') {
+	$ThemeEngine->go(ARCANE_SITE_NAME.' - 400');
 	echo'<div class="errorpage">
 	<h1><span class="title_color1">Error 400:</span> <span class="title_color2">Bad Request</span></h1><br />
 	The URL you were trying to access was malformed and the server was unable to process it. If you believe this was in error, please contact us and we will check it out.</div>';
-} else if($page == '500') {
-	$themeengine->go(ARCANE_SITE_NAME.' - 500');
-	echo'<div class="errorpage">
-	<h1><span class="title_color1">Error 500:</span> <span class="title_color2">Internal Server Error</span></h1><br />
-	Something went wrong on our end. Probably something misconfigured. This is usually temporary. Please try again later. If you believe this was in error, please contact us and we will check it out.</div>';
 } else {
 	$db = Database::getDatabase(true);
 
@@ -89,10 +88,10 @@ if($page == 'login') {
 	$row = $db->getRow($result);
 	
 	if($row['data']==NULL) {
-		redirect(WEB_ROOT . '/404');
+		redirect(WEB_ROOT . '/error404');
 	} else {
 		// Tell ThemeEngine to start buffering the page, set the page's title
-		$themeengine->go(ARCANE_SITE_NAME.' - '.ucwords($row['title']));
+		$ThemeEngine->go(ARCANE_SITE_NAME.' - '.ucwords($row['title']));
 	
 		echo $row['data'];
 	}

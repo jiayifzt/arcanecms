@@ -1,0 +1,8 @@
+Options -Indexes
+order deny,allow
+deny from all
+
+# allow direct access only to css, js and image files
+<FilesMatch "\.(css|jpe?g|png|gif|js)$">
+	allow from all
+</FilesMatch>

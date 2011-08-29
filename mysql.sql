@@ -10,7 +10,8 @@ CREATE TABLE `pages` (
   `title` varchar(65) NOT NULL DEFAULT '',
   `shortname` varchar(20) NOT NULL DEFAULT '',
   `data` text NOT NULL,
-  `ownerid` int(11) NOT NULL,
+  `parent` int(11) NOT NULL DEFAULT '',
+  `ownerid` int(11) NOT NULL DEFAULT 1,
   `perm` varchar(3) NOT NULL DEFAULT '644',
   PRIMARY KEY (`id`),
   UNIQUE KEY `shortname` (`shortname`)

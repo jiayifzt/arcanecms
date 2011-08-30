@@ -2,21 +2,28 @@
 
 require realpath(dirname(__FILE__) .'/includes/master.inc.php');
 
-$req = null;
-
-if(!empty($_GET['page'])) {
-	$req = explode('/', $_GET['page']);
+$req = explode('/', $_SERVER['REQUEST_URI']);
+$scriptloc = explode('/',$_SERVER['SCRIPT_NAME']);
+ 
+for($i= 0;$i < sizeof($scriptloc);$i++)
+{
+    if ($req[$i]==$scriptloc[$i])
+    {
+        unset($req[$i]);
+    }
 }
+ 
+$req = array_values($req);
 
 if(empty($req[0]))
 {
-	$page = 'home';
+	$page = ARCANE_DEFAULT_PAGE;
 } else {
 	$page = $req[0];
 }
 
 if($page == 'login') {
-	if($Auth->loggedIn()) redirect(WEB_ROOT);
+	if($Auth->loggedIn()) redirect(ARCANE_SITE_URL);
 
     if(!empty($_POST['username']))
     {
@@ -25,7 +32,7 @@ if($page == 'login') {
             if(isset($_REQUEST['r']) && strlen($_REQUEST['r']) > 0)
                 redirect($_REQUEST['r']);
             else
-                redirect(WEB_ROOT);
+                redirect(ARCANE_SITE_URL.'/admin/');
         }
         else
             $Error->add('username', "We're sorry, you have entered an incorrect username and password. Please try again.");
@@ -36,7 +43,7 @@ if($page == 'login') {
 	// Tell ThemeEngine to start buffering the page, set the page's title
 	$ThemeEngine->go(ARCANE_SITE_NAME.' - Login');
 	echo '<div id="loginForm">
-    <form action="login" method="post">
+    <form action="'.ARCANE_SITE_URL.'/login/" method="post">
         '.$Error.'
 		<h1 class="title"><span class="title_color1">Login to</span> <span class="title_color2">Arcane</span></h1>
 		<br />
@@ -60,26 +67,16 @@ if($page == 'login') {
 	</div>';
 } else if($page == 'logout') {
 	$Auth->logout();
-} else if($page == 'error404') {
-	$ThemeEngine->go(ARCANE_SITE_NAME.' - 404');
-	echo'<div class="errorpage">
-	<h1><span class="title_color1">Error 404:</span> <span class="title_color2">File Not Found</span></h1><br />
-	The requested file was not found on the server. It may have been moved or deleted. If you believe this was in error, please contact us and we will check it out. Also, contact the site from which you came to report a broken link.</div>';
-} else if($page == 'error403') {
-	$ThemeEngine->go(ARCANE_SITE_NAME.' - 403');
-	echo'<div class="errorpage">
-	<h1><span class="title_color1">Error 403:</span> <span class="title_color2">Forbidden</span></h1><br />
-	What you are doing is not allowed. Maybe we should call the cops. If you believe this was in error, please contact us and we will check it out.</div>';
-} else if($page == 'error401') {
-	$ThemeEngine->go(ARCANE_SITE_NAME.' - 401');
-	echo'<div class="errorpage">
-	<h1><span class="title_color1">Error 401:</span> <span class="title_color2">Authorization Required</span></h1><br />
-	An authorized session was not found. Please try again. If you believe this was in error, please contact us and we will check it out.</div>';
 } else if($page == 'error400') {
-	$ThemeEngine->go(ARCANE_SITE_NAME.' - 400');
-	echo'<div class="errorpage">
-	<h1><span class="title_color1">Error 400:</span> <span class="title_color2">Bad Request</span></h1><br />
-	The URL you were trying to access was malformed and the server was unable to process it. If you believe this was in error, please contact us and we will check it out.</div>';
+	$HTTPError->load("400");
+} else if($page == 'error401') {
+	$HTTPError->load("401");
+} else if($page == 'error403') {
+	$HTTPError->load("403");
+} else if($page == 'error404') {
+	$HTTPError->load("404");
+} else if($page == 'error500') {
+	$HTTPError->load("500");
 } else {
 	$db = Database::getDatabase(true);
 
@@ -87,8 +84,8 @@ if($page == 'login') {
 	$result = $db->query("SELECT * FROM pages WHERE shortname='$page'");
 	$row = $db->getRow($result);
 	
-	if($row['data']==NULL) {
-		redirect(WEB_ROOT . '/error404');
+	if($row['data']==null) {
+		$HTTPError->trigger("404");
 	} else {
 		// Tell ThemeEngine to start buffering the page, set the page's title
 		$ThemeEngine->go(ARCANE_SITE_NAME.' - '.ucwords($row['title']));

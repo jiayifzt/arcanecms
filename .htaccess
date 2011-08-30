@@ -7,8 +7,10 @@
 # Note: If you're having trouble making Apache pickup your .htaccess file,
 # make sure AllowOverride is set to "All" instead of "None".
 
-Options +FollowSymlinks
-RewriteEngine on
+Options +FollowSymLinks
+# Turn on the RewriteEngine
+RewriteEngine On
+#  Rules
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ index.php?page=$1 [QSA,L]
+RewriteRule . index.php

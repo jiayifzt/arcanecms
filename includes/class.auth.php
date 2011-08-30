@@ -1,6 +1,4 @@
 <?php
-
-	require_once './includes/class.config.php';
 	
     class Auth
     {
@@ -156,9 +154,9 @@
             }
         }
 
-        public static function createNewUser($username, $password = null)
+        public static function createNewUser($username, $password = null, $level = 'user')
         {
-	    $db = Database::getDatabase();
+			$db = Database::getDatabase();
 
             $user_exists = $db->getValue("SELECT COUNT(*) FROM users WHERE username = " . $db->quote($username));
             if($user_exists > 0)
@@ -172,6 +170,7 @@
             $u->username = $username;
             $u->nid = self::newNid();
             $u->password = self::hashedPassword($password);
+			$u->level = $level;
             $u->insert();
             return $u;
         }

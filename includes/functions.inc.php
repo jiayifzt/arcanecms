@@ -579,7 +579,7 @@
     {
         $filename = DOC_ROOT . '/includes/class.' . strtolower($class_name) . '.php';
         if(file_exists($filename))
-            require $filename;
+            require_once $filename;
     }
 
     // Returns a file's mimetype based on its extension

@@ -25,9 +25,6 @@
  * limitations under the License.
  */
 
-require_once DOC_ROOT . 'includes/class.config.php';
-
-
 /**
  * @ignore
  * Filter the body and template after they have been combined
@@ -160,6 +157,11 @@ class ThemeEngine {
 	 * Array of tags that will be processed in the template header.
 	 */
 	private $tag_stack_head = array();
+	
+	/**
+	 * Array of tags that will be processed in the body.
+	 */
+	private $tag_stack_body = array();
 
 	/**
 	 * Array of tags that will be processed in the template footer.
@@ -443,6 +445,7 @@ class ThemeEngine {
 
 		
 		$tag_head_stack = $this->tag_stack_head;
+		$tag_body_stack = $this->tag_stack_body;
 		$tag_foot_stack = $this->tag_stack_foot;
 
 		$filter_head_stack = &$this->filter_head_stack;
@@ -501,14 +504,22 @@ class ThemeEngine {
 		// Reminder: In PHP anonymous functions are early binding, pass variables
 		// by reference if they are prone to change after the function's definition
 		$enrobe_callback = function ($body) use ($get_header, $theme_fs_path,
-			$tag_head_stack, $tag_foot_stack,
+			$tag_head_stack, $tag_body_stack, $tag_foot_stack,
 			&$filter_head_stack, &$filter_body_stack, &$filter_foot_stack, &$filter_xhr_stack,
 			&$filter_everything_stack,
 			&$filter_always_head_stack, &$filter_always_body_stack, &$filter_always_foot_stack,
 			$theme_config,
 			$apply_filters
 		) {
-
+			// Process all of the %tags% for the body
+			if(count($tag_body_stack) > 0) {
+				foreach($tag_body_stack as $tag) {
+					$body = str_replace('%' . $tag['name'] . '%', $tag['value'], $body);
+				}
+			}
+			// Remove misc add_tag tags that were not processed
+			$body = preg_replace('/%[^%\s]*%/', '', $body);
+				
 			$body = $apply_filters($body, $filter_body_stack);
 
 			// If X-requested-with support is turned on and this is an XHR request
@@ -812,7 +823,7 @@ class ThemeEngine {
 	 *
 	 * @param string $name The name of the theme tag to define (sans %%)
 	 * @param string $value The value to insert at the new theme tag
-	 * @param integer $location Where to process the tag.  0 = Header and Footer, 1 = Header only, 2 = Footer only
+	 * @param integer $location Where to process the tag.  0 = Everywhere!, 1 = Header only, 2 = Body Only, 3 = Footer only
 	 * @param bool $sanitize If true, the $value is run through htmlentities() before inclusion in the page. Set to false if you need to include HTML, but you will need to sanitize any user input you include yourself!
 	 */
 	public function add_tag($name, $value, $location = 0, $sanitize = true) {
@@ -829,6 +840,9 @@ class ThemeEngine {
 			$this->tag_stack_head[] = $new_item;
 		}
 		if ($location === 0 || $location === 2) {
+			$this->tag_stack_body[] = $new_item;
+		}
+		if ($location === 0 || $location === 3) {
 			$this->tag_stack_foot[] = $new_item;
 		}
 	}

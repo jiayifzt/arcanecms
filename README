@@ -25,10 +25,10 @@ Why?!?
 How do I use it?
 	Short Answer: 	You can't (yet).
 	Long Answer: 	You can, but I haven't really gotten far enough to make it
-					convenient for you. There's no installer, there's no admin
-					interface (yet). There's also no documentation. It's simple 
-					enough that you should be able to figure it out if you dig 
-					through the code and the included database file.
+			convenient for you. There's no installer, there's no admin
+			interface (yet). There's also no documentation. It's simple 
+			enough that you should be able to figure it out if you dig 
+			through the code and the included database file.
 What are the requirements?
 	PHP 5+
 	SQL server (MySQL only at the moment, but I'm planning on switching to PDO)

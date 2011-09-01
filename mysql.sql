@@ -8,10 +8,10 @@ CREATE TABLE `sessions` (
 CREATE TABLE `pages` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(65) NOT NULL DEFAULT '',
-  `shortname` varchar(20) NOT NULL DEFAULT '',
+  `slug` varchar(20) NOT NULL DEFAULT '',
   `data` text NOT NULL,
-  `parent` int(11) NOT NULL DEFAULT '',
-  `ownerid` int(11) NOT NULL DEFAULT 1,
+  `parent_id` int(11) NOT NULL DEFAULT '',
+  `owner_id` int(11) NOT NULL DEFAULT 1,
   `perm` varchar(3) NOT NULL DEFAULT '644',
   PRIMARY KEY (`id`),
   UNIQUE KEY `shortname` (`shortname`)

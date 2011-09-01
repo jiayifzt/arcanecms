@@ -11,7 +11,6 @@
     require_once DOC_ROOT . '/includes/functions.inc.php';  // spl_autoload_register() is contained in this file
     require_once DOC_ROOT . '/includes/class.dbobject.php'; // DBOBject...
     require_once DOC_ROOT . '/includes/class.objects.php';  // and its subclasses
-	require_once DOC_ROOT . '/includes/view.httperror.php'; // HTTPError View
 
     // Fix magic quotes
     if(get_magic_quotes_gpc())
@@ -32,7 +31,7 @@
     // Initialize our session
     session_name('arcanesesh');
     session_start();
-
+	
     // Initialize current user
     $Auth = Auth::getAuth();
 
@@ -44,7 +43,7 @@
 	
 	// Initialize HTTPError for handling HTTP status codes such as 404.
 	$HTTPError = HTTPError::getHTTPError();
-	
+
     // If you need to bootstrap a first user into the database, you can run this line once
-    //Auth::createNewUser('admin', 'password'); //DEBUG purposes only, obviously not a safe option.
+    //Auth::createNewUser('admin', 'password', 'admin'); //DEBUG purposes only, obviously not a safe option.
 ?>	

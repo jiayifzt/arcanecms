@@ -41,8 +41,8 @@
             $this->setACookie();
             $this->loggedIn = $this->attemptCookieLogin();
         }
-
-        public function login($username, $password)
+		
+        public function doLogin($username, $password)
         {
             $this->loggedIn = false;
 
@@ -65,13 +65,6 @@
             $this->loggedIn = true;
 
             return true;
-        }
-
-        public function logout()
-        {
-            $this->loggedIn = false;
-            $this->clearCookies();
-            $this->sendToLoginPage();
         }
 
         public function loggedIn()
@@ -342,6 +335,62 @@
         {
             srand(time());
             return hash('sha256', (rand() . microtime()));
+        }
+		
+		public function login()
+		{
+			
+			if($this->loggedIn()) redirect(ARCANE_SITE_URL);
+
+			if(!empty($_POST['username']))
+			{
+				if($this->doLogin($_POST['username'], $_POST['password']))
+				{
+					if(isset($_REQUEST['r']) && strlen($_REQUEST['r']) > 0)
+						redirect($_REQUEST['r']);
+					else
+						redirect(ARCANE_SITE_URL.'/admin/');
+				}
+				else
+					$Error->add('username', "We're sorry, you have entered an incorrect username and password. Please try again.");
+			}
+			
+			$ThemeEngine = ThemeEngine::getThemeEngine();
+			$Error = Error::getError();
+			// Clean the submitted username before redisplaying it.
+			$username = isset($_POST['username']) ? htmlspecialchars($_POST['username']) : '';
+			// Tell ThemeEngine to start buffering the page, set the page's title
+			$ThemeEngine->go(ARCANE_SITE_NAME.' - Login');
+			echo '<div id="loginForm">
+			<form action="'.ARCANE_SITE_URL.$this->loginUrl.'" method="post">
+				'.$Error.'
+				<h1 class="title"><span class="title_color1">Login to</span> <span class="title_color2">Arcane</span></h1>
+				<br />
+				<div class="left">
+					<p><label for="username">Username:</label></p>
+					<br />
+					<br />
+					<p><label for="password">Password:</label></p>
+					<br />
+					<br />
+				</div>
+				<div class="right">
+					<p><input type="text" name="username" value="'.$username.'" id="username" class="textinput" /></p>
+					<br />
+					<p><input type="password" name="password" value="" id="password" class="textinput" /></p>
+				</div>
+				<div class="clear"></div>
+				<p><input type="submit" name="btnlogin" value="Login" id="btnlogin" class="button" /></p>
+				<input type="hidden" name="r" value="'.htmlspecialchars(@$_REQUEST['r']).'" id="r">
+			</form>
+			</div>';
+		}
+		
+		public function logout()
+        {
+            $this->loggedIn = false;
+            $this->clearCookies();
+            $this->sendToLoginPage();
         }
     }
 ?>

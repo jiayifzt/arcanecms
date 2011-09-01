@@ -791,7 +791,7 @@ class ThemeEngine {
 	 * <li>%js% - Any <script> tags for JavaScript files added via $ThemeEngine->add_js()</li>
 	 * <li>%generated% - Inserts a "Generated on" or "Cached on" message depending on whether or not caching is enabled on the current page.</li>
 	 * <li>%canonical% - Where in the head to insert the Canonical URL if one was set with $ThemeEngine->url()</li>
-	 * <li>%site_name% - The value for ARCANE_SITE_NAME specified in themeengine-config.php</li>
+	 * <li>%site_name% - The value for ARCANE_SITE_NAME specified in class.config.php</li>
 	 * <li>%tagline% - The value for ARCANE_TAGLINE specified in class.config.php</li>
 	 * <li>%siteurl% - The value for ARCANE_SITE_URL specified in class.config.php</li>
 	 * </ul>

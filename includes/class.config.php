@@ -88,8 +88,6 @@
 			define('ARCANE_SITE_NAME', 'Example.com');
 			// The tagline that appears below the site name in themes without a header image.
 			define('ARCANE_TAGLINE', 'Examplizing Examples Through Examplehood');
-			// The default page to load when on the root of the site.
-			define('ARCANE_DEFAULT_PAGE', 'home');
 			// Default theme to load.
 			define('ARCANE_DEFAULT_THEME', 'example');
 			
@@ -102,7 +100,7 @@
 		{
 			ini_set('display_errors', '0');
 
-			define('WEB_ROOT', ''); // Set this to be relative to $_SERVER['HTTP_HOST']
+			define('WEB_ROOT', '/'); // Set this to be relative to $_SERVER['HTTP_HOST']
 			
 			define('ARCANE_SITE_URL', 'http://'.$_SERVER['HTTP_HOST'] . WEB_ROOT);
 			
@@ -123,7 +121,7 @@
 			ini_set('display_errors', '1');
 			ini_set('error_reporting', E_ALL);
 
-			define('WEB_ROOT', ''); // Set this to be relative to $_SERVER['HTTP_HOST']
+			define('WEB_ROOT', '/'); // Set this to be relative to $_SERVER['HTTP_HOST']
 
 			define('ARCANE_SITE_URL', 'http://'.$_SERVER['HTTP_HOST'] . WEB_ROOT);
 			
@@ -144,7 +142,7 @@
 			ini_set('display_errors', '1');
 			ini_set('error_reporting', E_ALL);
 
-			define('WEB_ROOT', ''); // Set this to be relative to $_SERVER['HTTP_HOST']
+			define('WEB_ROOT', '/'); // Set this to be relative to $_SERVER['HTTP_HOST']
 			
 			define('ARCANE_SITE_URL', 'http://'.$_SERVER['HTTP_HOST'] . WEB_ROOT);
 			

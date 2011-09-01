@@ -1,110 +1,128 @@
 <?php
- 
-/* ------------------------------------------------------------- */
-/* URL Router class */
-/* Taken from:
-   http://blog.sosedoff.com/2009/07/04/simpe-php-url-routing-controller/
-*/
-/* ------------------------------------------------------------- */
- 
-class Router {
-  static protected $instance;
-  static protected $controller;
-  static protected $action;
-  static protected $params;
-  static protected $rules;
- 
-  public static function getInstance() {
-    if (isset(self::$instance) and (self::$instance instanceof self)) {
-      return self::$instance;
-    } else {
-      self::$instance = new self();
-      return self::$instance;
-    }
-  }
- 
-  private static function arrayClean($array) {
-    foreach($array as $key => $value) {
-      if (strlen($value) == 0) unset($array[$key]);
-    }  
-  }
- 
-  private static function ruleMatch($rule, $data) {    
-    $ruleItems = explode('/',$rule); self::arrayClean(&$ruleItems);
-    $dataItems = explode('/',$data); self::arrayClean(&$dataItems);
- 
-    if (count($ruleItems) == count($dataItems)) {
-      $result = array();
- 
-      foreach($ruleItems as $ruleKey => $ruleValue) {
-        if (preg_match('/^:[\w]{1,}$/',$ruleValue)) {
-          $ruleValue = substr($ruleValue,1);
-          $result[$ruleValue] = $dataItems[$ruleKey];
-        }
-        else {
-          if (strcmp($ruleValue,$dataItems[$ruleKey]) != 0) {
-            return false;
-          }
-        }
-      }
- 
-      if (count($result) > 0) return $result;
-      unset($result);
-    }
-    return false;
-  }
- 
-  private static function defaultRoutes($url) {
-    // process default routes
-    $items = explode('/',$url);
- 
-    // remove empty blocks
-    foreach($items as $key => $value) {
-      if (strlen($value) == 0) unset($items[$key]);
-    }
- 
-    // extract data
-    if (count($items)) {
-      self::$controller = array_shift($items);
-      self::$action = array_shift($items);
-      self::$params = $items;
-    }
-  }
- 
-  protected function __construct() {
-    self::$rules = array();
-  }
- 
-  public static function init() {
-    $url = $_SERVER['REQUEST_URI'];
-    $isCustom = false;
- 
-    if (count(self::$rules)) {
-      foreach(self::$rules as $ruleKey => $ruleData) {
-        $params = self::ruleMatch($ruleKey,$url);
-        if ($params) {          
-          self::$controller = $ruleData['controller'];
-          self::$action = $ruleData['action'];
-          self::$params = $params;
-          $isCustom = true;
-          break;
-        }
-      }
-    }
- 
-    if (!$isCustom) self::defaultRoutes($url);
- 
-    if (!strlen(self::$controller)) self::$controller = 'home';
-    if (!strlen(self::$action)) self::$action = 'index';
-  }
- 
-  public static function addRule($rule, $target) {
-    self::$rules[$rule] = $target;
-  }
- 
- 
-  public static function getController() { return self::$controller; }
-  public static function getAction() { return self::$action; }
-  public static function getParams() { return self::$params; }
-  public static function getParam($id) { return self::$params[$id]; }
-}
+
+	// Derived from http://blog.sosedoff.com/2009/09/20/rails-like-php-url-router/
+	define('ROUTER_DEFAULT_CONTROLLER', 'node');
+	define('ROUTER_DEFAULT_ACTION', 'home');
+	 
+	class Router {
+		
+		// Singleton object. Leave $me alone.
+		private static $me;
+		
+		public $request_uri;
+		public $routes;
+		public $controller, $controller_name;
+		public $action, $id;
+		public $params;
+		public $route_found = false;
+
+		public function __construct() {
+			$request = $_SERVER['REQUEST_URI'];
+			$pos = strpos($request, '?');
+			if ($pos) $request = substr($request, 0, $pos);
+
+			$this->request_uri = $request;
+			$this->routes = array();
+		}
+		
+		// Get Singleton object
+		public static function getRouter()
+		{
+			if(is_null(self::$me))
+				self::$me = new Router();
+			else {
+				$request = $_SERVER['REQUEST_URI'];
+				$pos = strpos($request, '?');
+				if ($pos) $request = substr($request, 0, $pos);
+
+				self::$me->request_uri = $request;
+			}
+			return self::$me;
+		}
+		
+		public function map($rule, $target=array(), $conditions=array()) {
+			$this->routes[$rule] = new Route($rule, $this->request_uri, $target, $conditions);
+		}
+
+		public function default_routes() {
+			$this->map('/', array('controller' => 'node', 'action' => 'home')); // main page will call controller "Home" with method "index()"
+			$this->map('/login', array('controller' => 'auth', 'action' => 'login'));
+			$this->map('/logout', array('controller' => 'auth', 'action' => 'logout'));
+			$this->map('/error400', array('controller' => 'httperror', 'action' => 'load400'));
+			$this->map('/error401', array('controller' => 'httperror', 'action' => 'load401'));
+			$this->map('/error403', array('controller' => 'httperror', 'action' => 'load403'));
+			$this->map('/error404', array('controller' => 'httperror', 'action' => 'load404'));
+			$this->map('/error500', array('controller' => 'httperror', 'action' => 'load500'));
+			$this->map('/:controller');
+			$this->map('/:controller/:action');
+			$this->map('/:controller/:action/:id');
+		}
+
+		private function set_route($route) {
+			$this->route_found = true;
+			$params = $route->params;
+			$this->controller = $params['controller']; unset($params['controller']);
+			$this->action = $params['action']; unset($params['action']);
+			if(!empty($params['id'])) {
+				$this->id = $params['id'];
+			}
+			$this->params = array_merge($params, $_GET);
+
+			if (empty($this->controller)) $this->controller = ROUTER_DEFAULT_CONTROLLER;
+			if (empty($this->action)) $this->action = ROUTER_DEFAULT_ACTION;
+			if (empty($this->id)) $this->id = null;
+
+			$w = explode('_', $this->controller);
+			foreach($w as $k => $v) $w[$k] = ucfirst($v);
+			$this->controller_name = implode('', $w);
+		}
+
+		public function execute() {
+			foreach($this->routes as $route) {
+				if ($route->is_matched) {
+					$this->set_route($route);
+					break;
+				}
+			}
+		}
+	}
+	 
+	class Route {
+		public $is_matched = false;
+		public $params;
+		public $url;
+		private $conditions;
+
+		function __construct($url, $request_uri, $target, $conditions) {
+			$this->url = $url;
+			$this->params = array();
+			$this->conditions = $conditions;
+			$p_names = array(); $p_values = array();
+
+			preg_match_all('@:([\w]+)@', $url, $p_names, PREG_PATTERN_ORDER);
+			$p_names = $p_names[0];
+
+			$url_regex = preg_replace_callback('@:[\w]+@', array($this, 'regex_url'), $url);
+			$url_regex .= '/?';
+
+			if (preg_match('@^' . $url_regex . '$@', $request_uri, $p_values)) {
+				array_shift($p_values);
+				foreach($p_names as $index => $value) $this->params[substr($value,1)] = urldecode($p_values[$index]);
+				foreach($target as $key => $value) $this->params[$key] = $value;
+				$this->is_matched = true;
+			}
+			unset($p_names); 
+			unset($p_values);
+		}
+
+		function regex_url($matches) {
+			$key = str_replace(':', '', $matches[0]);
+			if (array_key_exists($key, $this->conditions)) {
+				return '('.$this->conditions[$key].')';
+			} 
+			else {
+				return '([a-zA-Z0-9_\+\-%]+)';
+			}
+		}
+	}
+?>

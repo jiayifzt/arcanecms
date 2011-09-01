@@ -3,13 +3,11 @@
 require realpath(dirname(__FILE__) .'/includes/master.inc.php');
 
 $router = Router::getRouter(); // create router instance
-// START MF>>>
-$router->map('/about', array('controller' => 'node', 'action' => 'view', 'id' => 'about'));
-$router->map('/portfolio', array('controller' => 'node', 'action' => 'view', 'id' => 'portfolio'));
-$router->map('/projects', array('controller' => 'node', 'action' => 'view', 'id' => 'projects'));
-// <<<END MF
-$router->default_routes();
-$router->execute();
+// Add custom routes here
+// e.g. $router->map('/about', array('controller' => 'node', 'action' => 'view', 'id' => 'about')); // Effectively executes Node::View('about');
+
+$router->default_routes(); // These routes have lower precedence than the custom routes.
+$router->execute(); // Commits the mapped routes.
 if($router->route_found)
 {
 	$controller = $router->controller; // will return name as it appears in url, ex: 'user_images'
@@ -26,6 +24,6 @@ if($router->route_found)
 	}
 	
 } else {
-	$HTTPError->trigger('404');
+	$HTTPError->trigger('404'); // The route is invalid, so the page can not be found.
 }
 ?>

@@ -81,6 +81,8 @@ define('THEMEENGINE_FILTER_ALWAYS_BODY', 7);
  */
 define('THEMEENGINE_FILTER_ALWAYS_FOOT', 8);
 
+define('THEMEENGINE_X_REQUESTED_WITH', true);
+
 /**
  * @package themeengine
  * @subpackage classes
@@ -781,7 +783,7 @@ class ThemeEngine {
 	 * Adds a new theme tag.
 	 *
 	 *
-	 * Theme tags allow you to specify where things ThemeEngine generates are injected into the theme. There are a number of built in tags:
+	 * ThemeEngine tags allow you to specify where things ThemeEngine generates are injected into the theme. There are a number of built in tags:
 	 * <ul>
 	 * <li>%title% - The page's <title> tag</li>
 	 * <li>%desc% - The page's description <meta> tag</li>

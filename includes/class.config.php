@@ -25,6 +25,7 @@
 		public $authSalt;           // Can be any random string of characters
 
 		// ...For Database Class
+		public $dbType; // Database type (mysql or sqlite)
 		public $dbReadHost;   // Database read-only server
 		public $dbWriteHost;  // Database read/write server
 		public $dbName;
@@ -88,10 +89,10 @@
 			define('ARCANE_SITE_NAME', 'Example.com');
 			// The tagline that appears below the site name in themes without a header image.
 			define('ARCANE_TAGLINE', 'Examplizing Examples Through Examplehood');
+			// The default page to load when on the root of the site.
+			define('ARCANE_DEFAULT_PAGE', 'home');
 			// Default theme to load.
 			define('ARCANE_DEFAULT_THEME', 'example');
-			
-			define('THEMEENGINE_X_REQUESTED_WITH', true);
 
 		}
 
@@ -100,10 +101,11 @@
 		{
 			ini_set('display_errors', '0');
 
-			define('WEB_ROOT', '/'); // Set this to be relative to $_SERVER['HTTP_HOST']
+			define('WEB_ROOT', ''); // Set this to be relative to $_SERVER['HTTP_HOST']
 			
 			define('ARCANE_SITE_URL', 'http://'.$_SERVER['HTTP_HOST'] . WEB_ROOT);
 			
+			$this->dbType          = 'mysql';
 			$this->dbReadHost      = 'localhost';
 			$this->dbWriteHost     = 'localhost';
 			$this->dbName          = '';
@@ -121,10 +123,11 @@
 			ini_set('display_errors', '1');
 			ini_set('error_reporting', E_ALL);
 
-			define('WEB_ROOT', '/'); // Set this to be relative to $_SERVER['HTTP_HOST']
+			define('WEB_ROOT', ''); // Set this to be relative to $_SERVER['HTTP_HOST']
 
 			define('ARCANE_SITE_URL', 'http://'.$_SERVER['HTTP_HOST'] . WEB_ROOT);
 			
+			$this->dbType          = 'mysql';
 			$this->dbReadHost      = 'localhost';
 			$this->dbWriteHost     = 'localhost';
 			$this->dbName          = '';
@@ -142,10 +145,11 @@
 			ini_set('display_errors', '1');
 			ini_set('error_reporting', E_ALL);
 
-			define('WEB_ROOT', '/'); // Set this to be relative to $_SERVER['HTTP_HOST']
+			define('WEB_ROOT', ''); // Set this to be relative to $_SERVER['HTTP_HOST']
 			
 			define('ARCANE_SITE_URL', 'http://'.$_SERVER['HTTP_HOST'] . WEB_ROOT);
 			
+			$this->dbType          = 'mysql';
 			$this->dbReadHost      = 'localhost';
 			$this->dbWriteHost     = 'localhost';
 			$this->dbName          = '';
@@ -165,6 +169,7 @@
 
 			define('WEB_ROOT', '');
 
+			$this->dbType          = 'mysql';
 			$this->dbReadHost      = 'localhost';
 			$this->dbWriteHost     = 'localhost';
 			$this->dbName          = '';

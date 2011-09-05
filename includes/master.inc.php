@@ -46,4 +46,4 @@
 
     // If you need to bootstrap a first user into the database, you can run this line once
     //Auth::createNewUser('admin', 'password', 'admin'); //DEBUG purposes only, obviously not a safe option.
-?>	
+?>

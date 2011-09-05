@@ -51,14 +51,13 @@
 			$result = $db->query("SELECT * FROM pages WHERE slug='home'");
 			$row = $db->getRow($result);
 			
-			//if($row['data']==null) {
-				$ThemeEngine->go(ARCANE_SITE_NAME.' - '.ucwords($row['title']));
+			$ThemeEngine->go(ARCANE_SITE_NAME.' - '.ucwords($row['title']));
+
+			if($row['data']==null) {
 				echo 'Oh... there\'s nothing here. It looks like you forgot to add a page for home.';
-			/*} else {
-				// Tell ThemeEngine to start buffering the page, set the page's title
-				$ThemeEngine->go(ARCANE_SITE_NAME.' - '.ucwords($row['title']));
+			} else {
 				echo $row['data'];
-			}*/
+			}
 		}
 	}
 ?>

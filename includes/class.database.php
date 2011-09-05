@@ -48,7 +48,13 @@
                 $this->writePassword = Config::get('dbWritePassword'); 
                 $this->readDB  = false; 
                 $this->writeDB = false; 
-            } 
+            } else if($this->dbType=='sqlite') {
+				//$this->readDB = new SQLite3(DOC_ROOT.DS.'db'.DS.$this->dbName.'db', (SQLITE3_OPEN_READONLY | SQLITE3_OPEN_CREATE) );
+				//$this->writeDB = new SQLite3(DOC_ROOT.DS.'db'.DS.$this->dbName.'db');
+				die('SQLite support has not been completed yet.');
+			} else {
+				die('Unsupported database type specified in class.config.php');
+			}
         } 
 
         // Get Singleton object 
@@ -70,13 +76,24 @@
         { 
             return is_object($this->writeDB); 
         } 
-
+		
+		// Are we using MySQL?
+		public function isMySQL()
+		{
+			if($this->dbType=='mysql') return true;
+			else return false;
+		}
+		
         // Do we have a valid database connection and have we selected a database? 
         public function databaseSelected() 
         { 
-            if(!$this->isReadConnected()) return false; 
-            $result = mysqli_query( $this->escape($this->readDB, "SHOW TABLES FROM $this->name")); 
-            return is_object($result); 
+            if(isMySQL()) {
+				if(!$this->isReadConnected()) return false; 
+				$result = mysqli_query( $this->readDB, "SHOW TABLES FROM $this->name"); 
+            } else {
+				$this->readDB->query( "SHOW TABLES FROM $this->name");
+			}
+			return is_object($result); 
         } 
 
         public function readConnect() 

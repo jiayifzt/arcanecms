@@ -34,8 +34,8 @@
 			$ThemeEngine = ThemeEngine::getThemeEngine();
 			$db = Database::getDatabase(true);
 
-			$page = $db->escape($statuscode);
-			$result = $db->query("SELECT * FROM pages WHERE slug=$page");
+			$statuscode = $db->escape($statuscode);
+			$result = $db->query("SELECT * FROM pages WHERE slug='$statuscode'");
 			$row = $db->getRow($result);
 			
 			// Tell ThemeEngine to start buffering the page, set the page's title

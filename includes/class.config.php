@@ -15,9 +15,8 @@
 		// Each array item should be a regular expression. This gives you the option to detect a whole range
 		// of server names if needed. Otherwise, you can simply detect a single server like '/^servername\.com$/'
 		private $productionServers = array('/^example\.com$/');
-		private $stagingServers    = array('/^beta.example\.com$/');
-		private $localServers      = array('/^maxfierke\.de$/');
-		// DEFAULT: private $localServers      = array('/^example\.dev$/');
+		private $stagingServers    = array('/^beta\.example\.com$/');
+		private $localServers      = array('/^example\.dev$/');
 
 		// Standard Config Options...
 
@@ -93,8 +92,7 @@
 			// The default page to load when on the root of the site.
 			define('ARCANE_DEFAULT_PAGE', 'home');
 			// Default theme to load.
-			// DEFAULT: define('ARCANE_DEFAULT_THEME', 'example');
-			define('ARCANE_DEFAULT_THEME', 'maxfierke');
+			define('ARCANE_DEFAULT_THEME', 'example');
 
 		}
 
@@ -103,15 +101,18 @@
 		{
 			ini_set('display_errors', '0');
 
-			define('WEB_ROOT', ''); // Set this to be relative to $_SERVER['HTTP_HOST'] (No trailing slash)
+			define('WEB_ROOT', ''); // Set this to be relative to $_SERVER['HTTP_HOST']
 			
 			define('ARCANE_SITE_URL', 'http://'.$_SERVER['HTTP_HOST'] . WEB_ROOT);
 			
 			$this->dbType          = 'mysql';
-			$this->dbHost      	   = ''; // MySQL only
-			$this->dbName          = 'arcane';
-			$this->dbUsername 	   = ''; // MySQL only
-			$this->dbPassword 	   = ''; // MySQL only
+			$this->dbReadHost      = 'localhost';
+			$this->dbWriteHost     = 'localhost';
+			$this->dbName          = '';
+			$this->dbReadUsername  = '';
+			$this->dbWriteUsername = '';
+			$this->dbReadPassword  = '';
+			$this->dbWritePassword = '';
 			$this->dbOnError       = '';
 			$this->dbEmailOnError  = false;
 		}
@@ -122,15 +123,18 @@
 			ini_set('display_errors', '1');
 			ini_set('error_reporting', E_ALL);
 
-			define('WEB_ROOT', ''); // Set this to be relative to $_SERVER['HTTP_HOST'] (No trailing slash)
+			define('WEB_ROOT', ''); // Set this to be relative to $_SERVER['HTTP_HOST']
 
 			define('ARCANE_SITE_URL', 'http://'.$_SERVER['HTTP_HOST'] . WEB_ROOT);
 			
 			$this->dbType          = 'mysql';
-			$this->dbHost      	   = 'localhost'; // MySQL only
+			$this->dbReadHost      = 'localhost';
+			$this->dbWriteHost     = 'localhost';
 			$this->dbName          = '';
-			$this->dbUsername 	   = ''; // MySQL only
-			$this->dbPassword 	   = ''; // MySQL only
+			$this->dbReadUsername  = '';
+			$this->dbWriteUsername = '';
+			$this->dbReadPassword  = '';
+			$this->dbWritePassword = '';
 			$this->dbOnError       = 'die';
 			$this->dbEmailOnError  = false;
 		}
@@ -141,15 +145,18 @@
 			ini_set('display_errors', '1');
 			ini_set('error_reporting', E_ALL);
 
-			define('WEB_ROOT', ''); // Set this to be relative to $_SERVER['HTTP_HOST'] (No trailing slash)
+			define('WEB_ROOT', ''); // Set this to be relative to $_SERVER['HTTP_HOST']
 			
 			define('ARCANE_SITE_URL', 'http://'.$_SERVER['HTTP_HOST'] . WEB_ROOT);
 			
-			$this->dbType          = 'sqlite';
-			$this->dbHost      	   = 'localhost'; // MySQL only
-			$this->dbName          = 'arcane';
-			$this->dbUsername 	   = ''; // MySQL only
-			$this->dbPassword 	   = ''; // MySQL only
+			$this->dbType          = 'mysql';
+			$this->dbReadHost      = 'localhost';
+			$this->dbWriteHost     = 'localhost';
+			$this->dbName          = '';
+			$this->dbReadUsername  = '';
+			$this->dbWriteUsername = '';
+			$this->dbReadPassword  = '';
+			$this->dbWritePassword = '';
 			$this->dbOnError       = 'die';
 			$this->dbEmailOnError  = false;
 		}
@@ -163,10 +170,13 @@
 			define('WEB_ROOT', '');
 
 			$this->dbType          = 'mysql';
-			$this->dbHost      	   = 'localhost'; // MySQL only
+			$this->dbReadHost      = 'localhost';
+			$this->dbWriteHost     = 'localhost';
 			$this->dbName          = '';
-			$this->dbUsername 	   = ''; // MySQL only
-			$this->dbPassword 	   = ''; // MySQL only
+			$this->dbReadUsername  = '';
+			$this->dbWriteUsername = '';
+			$this->dbReadPassword  = '';
+			$this->dbWritePassword = '';
 			$this->dbOnError       = false;
 			$this->dbEmailOnError  = true;
 		}

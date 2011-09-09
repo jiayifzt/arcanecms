@@ -282,7 +282,7 @@ class ThemeEngine {
 		$out = array();
 
 		if ($themes === null) {
-			$d = dir(DOC_ROOT . DIRECTORY_SEPARATOR .'themes' . DIRECTORY_SEPARATOR);
+			$d = dir(DOC_ROOT . DS .'themes' . DS);
 			while (($item = $d->read()) !== false) {
 				if ($item !== '.' && $item !== '..' && is_dir($d->path . $item)) {
 					$out[] = $item;
@@ -406,9 +406,8 @@ class ThemeEngine {
 		$js = $this->get_js();
 		$css = $this->get_css();
 		$url = $this->url;
-        //$siteurl = $this->siteurl;
 		
-		$theme_fs_path = DOC_ROOT . DIRECTORY_SEPARATOR . "themes" . DIRECTORY_SEPARATOR . "$theme" . DIRECTORY_SEPARATOR;
+		$theme_fs_path = DOC_ROOT.DS."themes".DS."$theme".DS;
 		$theme_uri_path = ARCANE_SITE_URL . "/themes/$theme";
 
 		if ($title !== '') {
@@ -441,6 +440,7 @@ class ThemeEngine {
 		// e.g. http://www.example.com/arcane (note the missing trailing slash)
 		$this->add_tag('siteurl', ARCANE_SITE_URL, 0, false);
 		
+		$this->add_tag('contentdir', ARCANE_SITE_URL.'/content', 0, false);
 
 		$this->add_tag('themepath', $theme_uri_path, 0, false);
 		$this->add_tag('generated', $generated , 0);
@@ -796,6 +796,7 @@ class ThemeEngine {
 	 * <li>%site_name% - The value for ARCANE_SITE_NAME specified in class.config.php</li>
 	 * <li>%tagline% - The value for ARCANE_TAGLINE specified in class.config.php</li>
 	 * <li>%siteurl% - The value for ARCANE_SITE_URL specified in class.config.php</li>
+	 * <li>%contentdir% - The URI of the content directory.</li>
 	 * </ul>
 	 * 
 	 * If you add your own tags to your templates you can then set their value for any particular page with add_tag().

@@ -10,7 +10,7 @@
 	define('DS', DIRECTORY_SEPARATOR);
 
     // Global include files
-    require_once DOC_ROOT . '/includes/functions.inc.php';  // spl_autoload_register() is contained in this file
+    require_once DOC_ROOT . '/includes/functions.inc.php';  // __autoload() is contained in this file
     require_once DOC_ROOT . '/includes/class.dbobject.php'; // DBOBject...
     require_once DOC_ROOT . '/includes/class.objects.php';  // and its subclasses
 
@@ -69,8 +69,8 @@
 		$controller = ucfirst($controller);
 		$contConstruct = 'get'.$controller;
 		$do = $controller::$contConstruct();
-		if(!empty($Router->id)) {
-			$id = $Router->id; // if parameter :id presents
+		if(!empty($Router->id)) { // id is also param[0] or param['id']
+			$id = $Router->id;
 			$do->$action($id);
 		} else {
 			$do->$action();

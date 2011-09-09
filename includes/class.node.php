@@ -30,7 +30,7 @@
 				break;
 			}
 			$page_or_id = $db->escape($page_or_id);
-			$result = $db->query("SELECT * FROM pages WHERE $param='$page_or_id'");
+			$result = $db->query("SELECT * FROM pages WHERE $param=$page_or_id");
 			$row = $db->getRow($result);
 			
 			if($row['data']==null) {
@@ -51,7 +51,7 @@
 			$result = $db->query("SELECT * FROM pages WHERE slug='home'");
 			$row = $db->getRow($result);
 			
-			$ThemeEngine->go(ARCANE_SITE_NAME.' - '.ucwords($row['title']));
+			$ThemeEngine->go(ARCANE_SITE_NAME.' - Home');
 
 			if($row['data']==null) {
 				echo 'Oh... there\'s nothing here. It looks like you forgot to add a page for home.';

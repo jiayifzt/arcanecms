@@ -16,8 +16,7 @@
 		// of server names if needed. Otherwise, you can simply detect a single server like '/^servername\.com$/'
 		private $productionServers = array('/^example\.com$/');
 		private $stagingServers    = array('/^beta.example\.com$/');
-		private $localServers      = array('/^maxfierke\.de$/');
-		// DEFAULT: private $localServers      = array('/^example\.dev$/');
+		private $localServers      = array('/^example\.dev$/');
 
 		// Standard Config Options...
 
@@ -93,8 +92,7 @@
 			// The default page to load when on the root of the site.
 			define('ARCANE_DEFAULT_PAGE', 'home');
 			// Default theme to load.
-			// DEFAULT: define('ARCANE_DEFAULT_THEME', 'example');
-			define('ARCANE_DEFAULT_THEME', 'maxfierke');
+			define('ARCANE_DEFAULT_THEME', 'example');
 
 		}
 
@@ -108,8 +106,8 @@
 			define('ARCANE_SITE_URL', 'http://'.$_SERVER['HTTP_HOST'] . WEB_ROOT);
 			
 			$this->dbType          = 'mysql';
-			$this->dbHost      	   = ''; // MySQL only
-			$this->dbName          = 'arcane';
+			$this->dbHost      	   = 'localhost'; // MySQL only
+			$this->dbName          = '';
 			$this->dbUsername 	   = ''; // MySQL only
 			$this->dbPassword 	   = ''; // MySQL only
 			$this->dbOnError       = '';
@@ -145,9 +143,9 @@
 			
 			define('ARCANE_SITE_URL', 'http://'.$_SERVER['HTTP_HOST'] . WEB_ROOT);
 			
-			$this->dbType          = 'sqlite';
+			$this->dbType          = 'mysql';
 			$this->dbHost      	   = 'localhost'; // MySQL only
-			$this->dbName          = 'arcane';
+			$this->dbName          = '';
 			$this->dbUsername 	   = ''; // MySQL only
 			$this->dbPassword 	   = ''; // MySQL only
 			$this->dbOnError       = 'die';

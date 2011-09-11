@@ -87,28 +87,21 @@
 				if($this->DB === false) return false;
 				$this->DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			} else {
-				$this->DB = new PDO("sqlite:".DOC_ROOT.DS."db".DS."$this->name.sqlite");
+				$this->DB = new PDO("sqlite:".DOC_ROOT.DS."db".DS."$this->name.sqlite") or $this->notify();
 				if($this->DB === false) return false;
 				//$this->DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			}
             return $this->isConnected(); 
         } 
 
-        public function query($sql, $args_to_prepare = null, $exception_on_missing_args = true) 
+        public function query($sql, $args_to_prepare = null) 
         {  
-            $sql = trim($sql); 
-            if(!$this->isConnected())
-				$this->Connect(); 
-			$this->queries[] = $sql; 
-			$this->result = $this->DB->prepare($sql) or $this->notify();
-			if(is_array($args_to_prepare)) {
-				$this->result->execute($args_to_prepare) or $this->notify();
-			} else {
-				$this->result->execute();
-				//$this->result = $this->DB->query($sql) or $this->notify();
-			}
-			$ret = $this->result;
-            return $ret; 
+		$sql = trim($sql); 
+		if(!$this->isConnected()) $this->Connect(); 
+		$this->queries[] = $sql;	
+		$this->result = $this->DB->prepare($sql) or $this->notify();
+		$this->result->execute($args_to_prepare);
+		return $this->result;
         } 
 
         // Returns the number of rows. 
@@ -118,13 +111,25 @@
             $result = $this->resulter($arg); 
 			return ($result !== false) ? $result->rowCount() : false;
         } 
-
+	// Returns the number of rows in the previously executed select statement
+	public function rowCountResult()
+	{
+		if(!$this->isMySQL()) { // For SQLite only.
+			if( strtoupper( substr( $this->lastQuery(), 0, 6 ) ) == 'SELECT' )
+        		{
+            				// Do a SELECT COUNT(*) on the previously executed query
+            				$res = $this->query('SELECT COUNT(*)' . substr( $this->lastQuery(), strpos( strtoupper( $this->lastQuery() ), 'FROM' ) ) )->fetch( PDO::FETCH_NUM );
+            				return $res[0];
+            		}
+            	}
+            	else return $this->result->rowCount(); // The last query was not a SELECT query. Return the row count normally.
+	}
         // Returns true / false if the result has one or more rows 
         public function hasRows($arg = null) 
         { 
             $result = $this->resulter($arg);
-			return is_object($result) && ($result->rowCount() > 0);
-		} 
+            return is_object($result) && ($this->rowCountResult() > 0);
+	} 
 
         // Returns the number of rows affected by the previous WRITE operation 
         public function affectedRows() 
@@ -166,8 +171,9 @@
         // You can pass in nothing, a string, or a db result 
         public function getRow($arg = null) 
         { 
+            
             $result = $this->resulter($arg); 
-			return $this->hasRows($result) ? $result->fetch(PDO::FETCH_ASSOC) : false;
+		return $this->hasRows($result) ? $result->fetch(PDO::FETCH_ASSOC) : false;
 		} 
 
         // Returns an array of all the rows. 

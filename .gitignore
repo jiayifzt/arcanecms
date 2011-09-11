@@ -1,2 +1,5 @@
 themes/maxfierke/*
 content/images/*
+db/*.sqlite
+db/*.db
+includes/class.config.php

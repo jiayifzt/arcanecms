@@ -17,6 +17,16 @@ CREATE TABLE `pages` (
   UNIQUE KEY `shortname` (`shortname`)
 );
 
+CREATE TABLE `blog` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(65) NOT NULL DEFAULT '',
+  `slug` varchar(65) NOT NULL DEFAULT '',
+  `data` text NOT NULL,
+  `pubDate` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY ('id'),
+  UNIQUE KEY `slug` (`slug`)
+);
+
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nid` varchar(32) NOT NULL DEFAULT '',

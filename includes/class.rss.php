@@ -2,6 +2,7 @@
     class RSS
     {
         public $title;
+        public $RSS;
         public $link;
         public $description;
         public $language = 'en-US';
@@ -19,7 +20,15 @@
             $this->setPubDate();
             $this->url = $this->fullUrl();
         }
-
+		
+		// Get Singleton object 
+        public static function getRSS() 
+        { 
+            if(is_null(self::$me)) 
+                self::$me = new RSS(); 
+            return self::$me; 
+        } 
+        
         public function addItem($item)
         {
             $this->items[] = $item;
@@ -35,11 +44,12 @@
         public function addTag($tag, $value)
         {
             $this->tags[$tag] = $value;
-        }
-
+        }	
+	
         public function loadRecordset($result, $title, $link, $description, $pub_date)
         {
-            while($row = mysql_fetch_array($result, MYSQL_ASSOC))
+            $db = Database::getDatabase();
+            while($row = $db->getRow($result, MYSQL_ASSOC))
             {
                 $item = new RSSItem();
                 $item->title       = $row[$title];

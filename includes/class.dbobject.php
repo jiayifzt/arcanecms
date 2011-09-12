@@ -35,7 +35,7 @@
 					self::$autoColumns[$this->className] = array();
 
 					$db = Database::getDatabase();
-					$rows = $db->getRows('SHOW COLUMNS FROM `' . $this->tableName . '`');
+					$rows = $db->getRows('SHOW COLUMNS FROM ' . $this->tableName);
 					foreach($rows as $row)
 					{
 						if(strtolower($row['Field']) != strtolower($this->idColumnName))
@@ -85,7 +85,7 @@
             if(is_null($column)) $column = $this->idColumnName;
             $column = $db->escape($column);
 
-            $db->query("SELECT * FROM `{$this->tableName}` WHERE `$column` = :id: LIMIT 1", array('id' => $id));
+            $db->query("SELECT * FROM {$this->tableName} WHERE $column = :id LIMIT 1", array(':id' => $id));
             if($db->hasRows())
             {
                 $row = $db->getRow();
@@ -126,10 +126,10 @@
                 if(!is_null($v))
                     $data[$k] = $db->quote($v);
 
-            $columns = '`' . implode('`, `', array_keys($data)) . '`';
+            $columns = implode(', ', array_keys($data));
             $values = implode(',', $data);
 
-            $db->query("$cmd `{$this->tableName}` ($columns) VALUES ($values)");
+            $db->query("$cmd {$this->tableName} ($columns) VALUES ($values)");
             $this->id = $db->insertId();
             return $this->id;
         }
@@ -149,10 +149,10 @@
 
             $sql = "UPDATE {$this->tableName} SET ";
             foreach($this->columns as $k => $v)
-                $sql .= "`$k`=" . $db->quote($v) . ',';
+                $sql .= "$k=" . $db->quote($v) . ',';
             $sql[strlen($sql) - 1] = ' ';
 
-            $sql .= "WHERE `{$this->idColumnName}` = " . $db->quote($this->id);
+            $sql .= "WHERE {$this->idColumnName} = " . $db->quote($this->id);
             $db->query($sql);
 
             return $db->affectedRows();
@@ -162,7 +162,7 @@
         {
             if(is_null($this->id)) return false;
             $db = Database::getDatabase();
-            $db->query("DELETE FROM `{$this->tableName}` WHERE `{$this->idColumnName}` = :id: LIMIT 1", array('id' => $this->id));
+            $db->query("DELETE FROM {$this->tableName} WHERE {$this->idColumnName} = :id LIMIT 1", array(':id' => $this->id));
             return $db->affectedRows();
         }
 
@@ -201,7 +201,7 @@
                 return false;
 
             if(is_null($sql))
-                $sql = "SELECT * FROM `{$tmp_obj->tableName}`";
+                $sql = "SELECT * FROM {$tmp_obj->tableName}";
 
             $objs = array();
             $rows = $db->getRows($sql);
@@ -247,7 +247,7 @@
             if($name == '') return false;
 
             $t = new Tag($name);
-            $db->query("INSERT IGNORE {$this->tableName}2tags ({$this->tagColumnName}, tag_id) VALUES (:obj_id:, :tag_id:)", array('obj_id' => $this->id, 'tag_id' => $t->id));
+            $db->query("INSERT IGNORE {$this->tableName}2tags ({$this->tagColumnName}, tag_id) VALUES (:obj_id, :tag_id)", array(':obj_id' => $this->id, ':tag_id' => $t->id));
             return true;
         }
 
@@ -261,7 +261,7 @@
             if($name == '') return false;
 
             $t = new Tag($name);
-            $db->query("DELETE FROM {$this->tableName}2tags WHERE {$this->tagColumnName} = :obj_id: AND tag_id = :tag_id:", array('obj_id' => $this->id, 'tag_id' => $t->id));
+            $db->query("DELETE FROM {$this->tableName}2tags WHERE {$this->tagColumnName} = :obj_id AND tag_id = :tag_id", array(':obj_id' => $this->id, ':tag_id' => $t->id));
             return true;
         }
 
@@ -269,7 +269,7 @@
         {
             $db = Database::getDatabase();
             if(is_null($this->id)) return false;
-            $db->query("DELETE FROM {$this->tableName}2tags WHERE {$this->tagColumnName} = :obj_id:", array('obj_id' => $this->id));
+            $db->query("DELETE FROM {$this->tableName}2tags WHERE {$this->tagColumnName} = :obj_id", array(':obj_id' => $this->id));
             return true;
         }
 
@@ -277,7 +277,7 @@
         {
             $db = Database::getDatabase();
             if(is_null($this->id)) return false;
-            $result = $db->query("SELECT t.id, t.name FROM {$this->tableName}2tags a LEFT JOIN tags t ON a.tag_id = t.id WHERE a.{$this->tagColumnName} = '{$this->id}'");
+            $result = $db->query("SELECT t.id, t.name FROM {$this->tableName}2tags a LEFT JOIN tags t ON a.tag_id = t.id WHERE a.{$this->tagColumnName} = {$this->id}");
             $tags = array();
             $rows = $db->getRows($result);
             foreach($rows as $row)

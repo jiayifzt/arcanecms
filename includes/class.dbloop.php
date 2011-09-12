@@ -23,7 +23,7 @@ class DBLoop implements Iterator, Countable
                 return;
 
             if(is_null($sql))
-                $sql = "SELECT * FROM `{$tmp_obj->tableName}`";
+                $sql = "SELECT * FROM {$tmp_obj->tableName}";
 
             $db = Database::getDatabase();
             $this->result = $db->query($sql);

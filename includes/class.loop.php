@@ -36,6 +36,7 @@
     }
 
     // Example:
+    // $db = Database::getDatabase();
     // $color = new Loop('white', 'black');
     //
     // echo "<tr color='$color'/>";
@@ -44,6 +45,6 @@
     //
     // Or
     //
-    // while($row = mysql_fetch_array($result))
+    // while($row = $db->getRow($result))
     //      echo "<tr color'$color'>the row colors will alternate</tr>";
 ?>

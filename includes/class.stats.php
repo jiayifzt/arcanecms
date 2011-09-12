@@ -41,21 +41,21 @@
 
             $sql = "INSERT INTO stats (dt, referer, referer_is_local, url, page_title, search_terms, img_search, browser_family, browser_version, os, os_version, ip, user_agent, exec_time, num_queries)
                     VALUES (:dt, :referer, :referer_is_local, :url, :page_title, :search_terms, :img_search, :browser_family, :browser_version, :os, :os_version, :ip, :user_agent, :exec_time, :num_queries)";
-            $vals = array('dt'               => $dt,
-                          'referer_is_local' => $referer_is_local,
-                          'referer'          => $referer,
-                          'url'              => $url,
-                          'page_title'       => $page_title,
-                          'search_terms'     => $search_terms,
-                          'img_search'       => $img_search,
-                          'ip'               => $ip,
-                          'browser_family'   => $browser_family,
-                          'browser_version'  => $browser_version,
-                          'os_version'       => $os_version,
-                          'os'               => $os,
-                          'user_agent'       => $user_agent,
-                          'exec_time'        => $exec_time,
-                          'num_queries'      => $num_queries);
+            $vals = array(':dt'               => $dt,
+                          ':referer_is_local' => $referer_is_local,
+                          ':referer'          => $referer,
+                          ':url'              => $url,
+                          ':page_title'       => $page_title,
+                          ':search_terms'     => $search_terms,
+                          ':img_search'       => $img_search,
+                          ':ip'               => $ip,
+                          ':browser_family'   => $browser_family,
+                          ':browser_version'  => $browser_version,
+                          ':os_version'       => $os_version,
+                          ':os'               => $os,
+                          ':user_agent'       => $user_agent,
+                          ':exec_time'        => $exec_time,
+                          ':num_queries'      => $num_queries);
             $db->query($sql, $vals);
         }
 

@@ -18,46 +18,53 @@
 			return self::$me;
 		}
 		
-		public function view($page_or_id)
-		{
-			$db = Database::getDatabase(true);
-			$HTTPError = HTTPError::getHTTPError();
-			$ThemeEngine = ThemeEngine::getThemeEngine();
-			if(is_int($page_or_id)) $param = 'id';
-			else if(is_string($page_or_id)) $param = 'slug';
-			else {
-				$HTTPError->trigger('400');
-				break;
-			}
-			$page_or_id = $db->escape($page_or_id);
-			$result = $db->query("SELECT * FROM pages WHERE $param=$page_or_id");
-			$row = $db->getRow($result);
-			
-			if($row['data']==null) {
-				$HTTPError->trigger("404");
-			} else {
-				// Tell ThemeEngine to start buffering the page, set the page's title
-				$ThemeEngine->go(ARCANE_SITE_NAME.' - '.ucwords($row['title']));
-				echo $row['data'];
-			}
+	public function view($page_or_id)
+	{
+		$db = Database::getDatabase();
+		$HTTPError = HTTPError::getHTTPError();
+		$ThemeEngine = ThemeEngine::getThemeEngine();
+		if(is_int($page_or_id)) $param = 'id';
+		else if(is_string($page_or_id)) $param = 'slug';
+		else {
+			$HTTPError->trigger('400');
+			break;
 		}
+		$page_or_id = $db->escape($page_or_id);
+		$result = $db->query("SELECT * FROM pages WHERE $param=$page_or_id");
+		$row = $db->getRow($result);
 		
-		public function home()
-		{
-			$db = Database::getDatabase(true);
-			$HTTPError = HTTPError::getHTTPError();
-			$ThemeEngine = ThemeEngine::getThemeEngine();
-
-			$result = $db->query("SELECT * FROM pages WHERE slug='home'");
-			$row = $db->getRow($result);
-			
-			$ThemeEngine->go(ARCANE_SITE_NAME.' - Home');
-
-			if($row['data']==null) {
-				echo 'Oh... there\'s nothing here. It looks like you forgot to add a page for home.';
-			} else {
-				echo $row['data'];
-			}
+		if($row['data']==null) {
+			$HTTPError->trigger("404");
+		} else {
+			// Tell ThemeEngine to start buffering the page, set the page's title
+			$ThemeEngine->go(ARCANE_SITE_NAME.' - '.ucwords($row['title']));
+			echo $row['data'];
 		}
 	}
+		
+	public function home()
+	{
+		$db = Database::getDatabase();
+		$HTTPError = HTTPError::getHTTPError();
+		$ThemeEngine = ThemeEngine::getThemeEngine();
+		$result = $db->query("SELECT * FROM pages WHERE slug='home'");
+		$row = $db->getRow($result);
+			
+		$ThemeEngine->go(ARCANE_SITE_NAME.' - Home');
+
+		if($row['data']==null) {
+			echo 'Oh... there\'s nothing here. It looks like you forgot to add a page for home.';
+		} else {
+			echo $row['data'];
+		}
+	}
+	public function rss()
+	{
+		$feed = RSS::getRSS();
+		$db = Database::getDatabase();
+		$result = $db->query("SELECT * FROM blog ORDER BY id DESC LIMIT 10");
+		$feed->loadRecordset($result, ARCANE_SITE_NAME.' - Latest News', ARCANE_SITE_URL."/blog/", ARCANE_SITE_DESC, $feed->setPubDate());
+		$feed->serve();
+	}
+}
 ?>

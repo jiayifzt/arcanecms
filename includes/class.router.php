@@ -46,6 +46,7 @@
 
 		public function default_routes() {
 			$this->map('/', array('controller' => 'node', 'action' => 'home')); // main page will call controller "Home" with method "index()"
+			$this->map('/rss', array('controller' => 'node', 'action' => 'rss'));
 			$this->map('/login', array('controller' => 'auth', 'action' => 'login'));
 			$this->map('/logout', array('controller' => 'auth', 'action' => 'logout'));
 			$this->map('/error400', array('controller' => 'httperror', 'action' => 'load400'));

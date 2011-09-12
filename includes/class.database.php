@@ -1,5 +1,5 @@
 <?php 
-    class Database 
+    class Database
     { 
         // Singleton object. Leave $me alone. 
         private static $me; 
@@ -52,7 +52,18 @@
             if(is_null(self::$me)) 
                 self::$me = new Database(); 
             return self::$me; 
-        } 
+        }
+        public function __wakeup()
+        {
+        	$this->Connect();
+        }
+        public function __sleep()
+        {
+             if(is_object($this->DB)) {
+             	$this->DB = null;
+             }
+             return array_keys(get_object_vars($this));
+        }
 
         // Do we have a valid read/write database connection? 
         public function isConnected() 
@@ -82,26 +93,26 @@
 
         public function Connect() 
         { 
-            if($this->isMySQL()) {
+			if($this->isMySQL()) {
 				$this->DB = new PDO("mysql:dbname=$this->name;host=$this->Host", $this->Username, $this->Password) or $this->notify(); 
 				if($this->DB === false) return false;
-				$this->DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+				$this->DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 			} else {
 				$this->DB = new PDO("sqlite:".DOC_ROOT.DS."db".DS."$this->name.sqlite") or $this->notify();
 				if($this->DB === false) return false;
-				//$this->DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+				$this->DB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 			}
             return $this->isConnected(); 
         } 
 
         public function query($sql, $args_to_prepare = null) 
         {  
-		$sql = trim($sql); 
-		if(!$this->isConnected()) $this->Connect(); 
-		$this->queries[] = $sql;	
-		$this->result = $this->DB->prepare($sql) or $this->notify();
-		$this->result->execute($args_to_prepare);
-		return $this->result;
+			$sql = trim($sql); 
+			if(!$this->isConnected()) $this->Connect(); 
+			$this->queries[] = $sql;	
+			$this->result = $this->DB->prepare($sql) or $this->notify();
+			$this->result->execute($args_to_prepare);
+			return $this->result;
         } 
 
         // Returns the number of rows. 
@@ -111,25 +122,25 @@
             $result = $this->resulter($arg); 
 			return ($result !== false) ? $result->rowCount() : false;
         } 
-	// Returns the number of rows in the previously executed select statement
-	public function rowCountResult()
-	{
-		if(!$this->isMySQL()) { // For SQLite only.
-			if( strtoupper( substr( $this->lastQuery(), 0, 6 ) ) == 'SELECT' )
+		// Returns the number of rows in the previously executed select statement
+		public function rowCountResult()
+		{
+			if(!$this->isMySQL()) { // For SQLite only.
+				if( strtoupper( substr( $this->lastQuery(), 0, 6 ) ) == 'SELECT' )
         		{
             				// Do a SELECT COUNT(*) on the previously executed query
             				$res = $this->query('SELECT COUNT(*)' . substr( $this->lastQuery(), strpos( strtoupper( $this->lastQuery() ), 'FROM' ) ) )->fetch( PDO::FETCH_NUM );
             				return $res[0];
-            		}
             	}
+            }
             	else return $this->result->rowCount(); // The last query was not a SELECT query. Return the row count normally.
-	}
+		}
         // Returns true / false if the result has one or more rows 
         public function hasRows($arg = null) 
         { 
             $result = $this->resulter($arg);
             return is_object($result) && ($this->rowCountResult() > 0);
-	} 
+		} 
 
         // Returns the number of rows affected by the previous WRITE operation 
         public function affectedRows() 
@@ -170,10 +181,9 @@
         // Returns the first row. 
         // You can pass in nothing, a string, or a db result 
         public function getRow($arg = null) 
-        { 
-            
+        {
             $result = $this->resulter($arg); 
-		return $this->hasRows($result) ? $result->fetch(PDO::FETCH_ASSOC) : false;
+			return $this->hasRows($result) ? $result->fetch(PDO::FETCH_ASSOC) : false;
 		} 
 
         // Returns an array of all the rows. 

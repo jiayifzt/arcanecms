@@ -14,7 +14,7 @@ CREATE TABLE `pages` (
   `owner_id` int(11) NOT NULL DEFAULT 1,
   `perm` varchar(3) NOT NULL DEFAULT '644',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `shortname` (`shortname`)
+  UNIQUE KEY `slug` (`slug`)
 );
 
 CREATE TABLE `blog` (

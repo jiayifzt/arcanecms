@@ -53,11 +53,7 @@
 	
 	// Add custom routes here
 	// e.g. $router->map('/about', array('controller' => 'node', 'action' => 'view', 'id' => 'about')); // Effectively executes Node::View('about');
-	// START MF>>>
-	$Router->map('/about', array('controller' => 'node', 'action' => 'view', 'id' => 'about'));
-	$Router->map('/portfolio', array('controller' => 'node', 'action' => 'view', 'id' => 'portfolio'));
-	$Router->map('/projects', array('controller' => 'node', 'action' => 'view', 'id' => 'projects'));
-	// <<<END MF
+	
 	$Router->default_routes(); // These routes have lower precedence than the custom routes.
 	$Router->execute(); // Commits the mapped routes.
 	

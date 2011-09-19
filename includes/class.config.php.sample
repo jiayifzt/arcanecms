@@ -83,7 +83,7 @@
 
 			// Settings for the Auth class
 			$this->authDomain = $_SERVER['HTTP_HOST'];
-			$this->authSalt   = '';
+			$this->authSalt   = 'Put lots of random characters here. Try a sha512 or skein hash.';
 			
 			// The name of the site.  The site name is displayed in the header of themes without a header image.
 			define('ARCANE_SITE_NAME', 'Example.com');

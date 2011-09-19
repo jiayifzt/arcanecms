@@ -2,7 +2,6 @@
 	
     class Auth
     {
-        const SALT = 'Put lots of random characters here. Try a sha512 or skein hash of a really long, random phrase.';
 
         private static $me;
 
@@ -255,7 +254,7 @@
             if($b['x'] < time())
                 return false;
 
-            $computed_sig = hash('sha256',(str_rot13(base64_encode($ccookie)) . $b['x'] . self::SALT));
+            $computed_sig = hash('sha256',(str_rot13(base64_encode($ccookie)) . $b['x'] . Config::get('authSalt')));
             if($computed_sig != $b['s'])
                 return false;
 
@@ -298,7 +297,7 @@
             $c = base64_encode($c);
             $c = str_rot13($c);
 
-            $sig = hash('sha256', ($c . $this->expiryDate . self::SALT));
+            $sig = hash('sha256', ($c . $this->expiryDate . Config::get('authSalt')));
             $b = "x={$this->expiryDate}&s=$sig";
             $b = base64_encode($b);
             $b = str_rot13($b);
@@ -328,7 +327,7 @@
 
         private static function hashedPassword($password)
         {
-            return hash('sha256', ($password . self::SALT));
+            return hash('sha256', ($password . Config::get('authSalt')));
         }
 
         private static function newNid()

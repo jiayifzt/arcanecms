@@ -2,13 +2,13 @@
     function set_option($key, $val)
     {
         $db = Database::getDatabase();
-        $db->query('REPLACE INTO options (`key`, `value`) VALUES (:key:, :value:)', array('key' => $key, 'value' => $val));
+        $db->query('REPLACE INTO options (key, value) VALUES (:key, :value)', array(':key' => $key, ':value' => $val));
     }
 
     function get_option($key, $default = null)
     {
         $db = Database::getDatabase();
-        $db->query('SELECT `value` FROM options WHERE `key` = :key:', array('key' => $key));
+        $db->query('SELECT value FROM options WHERE key = :key', array(':key' => $key));
         if($db->hasRows())
             return $db->getValue();
         else
@@ -18,7 +18,7 @@
     function delete_option($key)
     {
         $db = Database::getDatabase();
-        $db->query('DELETE FROM options WHERE `key` = :key:', array('key' => $key));
+        $db->query('DELETE FROM options WHERE key = :key', array(':key' => $key));
         return $db->affectedRows();
     }
 
@@ -159,7 +159,7 @@
         $out = '';
 
         $table = $db->escape($table);
-        $rows = $db->getRows("SELECT * FROM `$table` $sql");
+        $rows = $db->getRows("SELECT * FROM $table $sql");
         foreach($rows as $row)
         {
             $the_text = '';
@@ -652,8 +652,8 @@
 
     function __autoload($class_name)
     {
-        if(file_exists(DOC_ROOT . '/includes/class.' . strtolower($class_name) . '.php'))
-            require_once DOC_ROOT . '/includes/class.' . strtolower($class_name) . '.php';
+        if(file_exists(DOC_ROOT.'/includes/class.'.strtolower($class_name).'.php'))
+            require_once DOC_ROOT.'/includes/class.'.strtolower($class_name).'.php';
     }
 
     // Returns a file's mimetype based on its extension

@@ -65,9 +65,8 @@
 		$controller = ucfirst($controller);
 		$contConstruct = 'get'.$controller;
 		$do = $controller::$contConstruct();
-		if(!empty($Router->id)) { // id is also param[0] or param['id']
-			$id = $Router->id;
-			$do->$action($id);
+		if(!empty($params)) { // id is also params[0] or params['id']
+			$do->$action($params);
 		} else {
 			$do->$action();
 		}

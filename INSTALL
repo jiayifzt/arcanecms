@@ -22,16 +22,8 @@ SERVER SETUP:
 	nginx Instructions:
 		* Use ProxyPass to an internal Apache server handling your site
 		or
-		* Use the following under your site's location directive in virtual.conf
-		example:
-			location / {
-				root   <full path to arcane>;
-				index  index.php index.html index.htm;
-				if (-f $request_filename) {
-					break;
-				}
-				rewrite . index.php last;
-			}
+		* Check out the example configuration file: 
+				INSTALL.nginx (requires nginx >= 0.7.27)
 
 	IIS, Lighttpd, and all other web servers:
 		* You're on your own.

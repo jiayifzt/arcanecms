@@ -89,6 +89,8 @@
 			define('ARCANE_SITE_NAME', 'Example.com');
 			// The tagline that appears below the site name in themes without a header image.
 			define('ARCANE_TAGLINE', 'Examplizing Examples Through Examplehood');
+			// The description of the site. Used for SEO and RSS.
+			define('ARCANE_SITE_DESC', 'An example site for exampling examples through the use of various examples.');
 			// The default page to load when on the root of the site.
 			define('ARCANE_DEFAULT_PAGE', 'home');
 			// Default theme to load.

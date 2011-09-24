@@ -1,10 +1,11 @@
 <?php
     class RSS
     {
-        public $title;
+        private static $me; // Singleton Object. DO NOT TOUCH
+        public $title = ARCANE_SITE_NAME;
         public $RSS;
-        public $link;
-        public $description;
+        public $link = ARCANE_SITE_URL;
+        public $description = ARCANE_SITE_DESC;
         public $language = 'en-US';
         public $pubDate;
         public $url;
@@ -49,7 +50,7 @@
         public function loadRecordset($result, $title, $link, $description, $pub_date)
         {
             $db = Database::getDatabase();
-            while($row = $db->getRow($result, MYSQL_ASSOC))
+            while($row = $db->getRow($result))
             {
                 $item = new RSSItem();
                 $item->title       = $row[$title];

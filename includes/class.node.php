@@ -18,19 +18,20 @@
 			return self::$me;
 		}
 		
-	public function view($page_or_id)
+	public function view($params)
 	{
+		$page_or_id = $params['id'];
 		$db = Database::getDatabase();
 		$HTTPError = HTTPError::getHTTPError();
 		$ThemeEngine = ThemeEngine::getThemeEngine();
-		if(is_int($page_or_id)) $param = 'id';
-		else if(is_string($page_or_id)) $param = 'slug';
+		if(is_int($page_or_id)) $type = 'id';
+		else if(is_string($page_or_id)) $type = 'slug';
 		else {
 			$HTTPError->trigger('400');
 			break;
 		}
 		$page_or_id = $db->escape($page_or_id);
-		$result = $db->query("SELECT * FROM pages WHERE $param=$page_or_id");
+		$result = $db->query("SELECT * FROM pages WHERE $type=$page_or_id");
 		$row = $db->getRow($result);
 		
 		if($row['data']==null) {

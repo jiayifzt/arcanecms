@@ -1,0 +1,48 @@
+server {
+	listen   80;
+
+	server_name <site hostname>;
+
+	root	<path to arcane>;
+	index	index.php;
+
+	location / {
+		set $page_to_view "/index.php";
+		if (-f $request_filename) {
+			break;
+		}
+		rewrite . index.php last;
+	}
+
+	error_page 403 /error403;
+	error_page 404 /error404;
+	error_page 500 /error500;
+
+	# redirect server error pages to the static page /50x.html
+	error_page 502 503 504 /50x.html;
+	location = /50x.html {
+		root /usr/share/nginx/www;
+	}
+
+	# pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+	location ~ \.php$ {
+		include /etc/nginx/fastcgi_params;
+		fastcgi_pass 127.0.0.1:9000;
+		fastcgi_index index.php;
+		fastcgi_param SCRIPT_FILENAME <set this to the same as root>$page_to_view;
+		fastcgi_intercept_errors on;
+	}
+
+	# deny access to .htaccess files, if Apache's document root
+	# concurs with nginx's one
+	location ~ /\.ht {
+		deny all;
+	}
+	# deny access to any sqlite databases.
+	location ~ .sqlite { 
+		deny all;
+	}
+	location = /includes/* {
+		deny all;
+	}
+}

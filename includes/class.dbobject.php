@@ -34,8 +34,9 @@
 				{
 					self::$autoColumns[$this->className] = array();
 
-					$db = Database::getDatabase();
-					$rows = $db->getRows('SHOW COLUMNS FROM ' . $this->tableName);
+					$db = Database::getInstance();
+					//$rows = $db->getRows('SHOW COLUMNS FROM ' . $this->tableName);
+					$rows = $db->getRows($db->showColumns($this->tableName));
 					foreach($rows as $row)
 					{
 						if(strtolower($row['Field']) != strtolower($this->idColumnName))
@@ -80,7 +81,7 @@
 
         public function select($id, $column = null)
         {
-            $db = Database::getDatabase();
+            $db = Database::getInstance();
 
             if(is_null($column)) $column = $this->idColumnName;
             $column = $db->escape($column);
@@ -117,7 +118,7 @@
 
         public function insert($cmd = 'INSERT INTO')
         {
-            $db = Database::getDatabase();
+            $db = Database::getInstance();
 
             if(count($this->columns) == 0) return false;
 
@@ -143,7 +144,7 @@
         {
             if(!$this->ok()) return false;
 
-            $db = Database::getDatabase();
+            $db = Database::getInstance();
 
             if(count($this->columns) == 0) return;
 
@@ -161,7 +162,7 @@
         public function delete()
         {
             if(is_null($this->id)) return false;
-            $db = Database::getDatabase();
+            $db = Database::getInstance();
             $db->query("DELETE FROM {$this->tableName} WHERE {$this->idColumnName} = :id LIMIT 1", array(':id' => $this->id));
             return $db->affectedRows();
         }
@@ -188,7 +189,7 @@
 		// Use DBObject::glob() for PHP < 5.3
         public static function glob($class_name, $sql = null, $extra_columns = array())
         {
-            $db = Database::getDatabase();
+            $db = Database::getInstance();
 
             // Make sure the class exists before we instantiate it...
             if(!class_exists($class_name))
@@ -239,7 +240,7 @@
 
         public function addTag($name)
         {
-            $db = Database::getDatabase();
+            $db = Database::getInstance();
 
             if(is_null($this->id)) return false;
 
@@ -253,7 +254,7 @@
 
         public function removeTag($name)
         {
-            $db = Database::getDatabase();
+            $db = Database::getInstance();
 
             if(is_null($this->id)) return false;
 
@@ -267,7 +268,7 @@
 
         public function clearTags()
         {
-            $db = Database::getDatabase();
+            $db = Database::getInstance();
             if(is_null($this->id)) return false;
             $db->query("DELETE FROM {$this->tableName}2tags WHERE {$this->tagColumnName} = :obj_id", array(':obj_id' => $this->id));
             return true;
@@ -275,7 +276,7 @@
 
         public function tags()
         {
-            $db = Database::getDatabase();
+            $db = Database::getInstance();
             if(is_null($this->id)) return false;
             $result = $db->query("SELECT t.id, t.name FROM {$this->tableName}2tags a LEFT JOIN tags t ON a.tag_id = t.id WHERE a.{$this->tagColumnName} = {$this->id}");
             $tags = array();
@@ -288,7 +289,7 @@
         // Return all objects tagged $tag_name
         public function tagged($tag_name, $sql = '')
         {
-            $db = Database::getDatabase();
+            $db = Database::getInstance();
 
             $tag = new Tag($tag_name);
             if(is_null($tag->id)) return array();

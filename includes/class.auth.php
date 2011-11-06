@@ -45,7 +45,7 @@
         {
             $this->loggedIn = false;
 
-            $db = Database::getDatabase();
+            $db = Database::getInstance();
             $hashed_password = self::hashedPassword($password);
             $row = $db->getRow("SELECT * FROM users WHERE username = $db->quote($username) AND password = $db->quote($hashed_password)");
 
@@ -90,7 +90,7 @@
 
         public function changeCurrentUsername($new_username)
         {
-            $db = Database::getDatabase();
+            $db = Database::getInstance();
             srand(time());
             $this->user->nid = Auth::newNid();
             $this->nid = $this->user->nid;
@@ -102,7 +102,7 @@
 
         public function changeCurrentPassword($new_password)
         {
-            $db = Database::getDatabase();
+            $db = Database::getInstance();
             srand(time());
             $this->user->nid = self::newNid();
             $this->user->password = self::hashedPassword($new_password);
@@ -148,7 +148,7 @@
 
         public static function createNewUser($username, $password = null, $level = 'user')
         {
-			$db = Database::getDatabase();
+			$db = Database::getInstance();
 
             $user_exists = $db->getValue("SELECT COUNT(*) FROM users WHERE username = $db->quote($username)");
             if($user_exists > 0)
@@ -262,7 +262,7 @@
             if($nid === false)
                 return false;
 
-            $db = Database::getDatabase();
+            $db = Database::getInstance();
 
             // We SELECT * so we can load the full user record into the user DBObject later
             $row = $db->getRow("SELECT * FROM users WHERE nid = $db->quote($nid)");
@@ -354,8 +354,8 @@
 					$Error->add('username', "We're sorry, you have entered an incorrect username and password. Please try again.");
 			}
 			
-			$ThemeEngine = ThemeEngine::getThemeEngine();
-			$Error = Error::getError();
+			$ThemeEngine = ThemeEngine::getInstance();
+			$Error = Error::getInstance();
 			// Clean the submitted username before redisplaying it.
 			$username = isset($_POST['username']) ? htmlspecialchars($_POST['username']) : '';
 			// Tell ThemeEngine to start buffering the page, set the page's title

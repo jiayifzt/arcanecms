@@ -36,7 +36,7 @@
     }
 
     // Example:
-    // $db = Database::getDatabase();
+    // $db = Database::getInstance();
     // $color = new Loop('white', 'black');
     //
     // echo "<tr color='$color'/>";

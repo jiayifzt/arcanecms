@@ -16,7 +16,7 @@
 
         public static function getDataStr($url, $expires_in = 300)
         {
-            $db = Database::getDatabase();
+            $db = Database::getInstance();
             $db->query("SELECT * FROM url_cache WHERE url = :url LIMIT 1", array(':url' => $url));
             $row = $db->getRow();
 
@@ -41,7 +41,7 @@
             $data = self::decodeStrData($str);
             if($data === false) return false;
 
-            $db = Database::getDatabase();
+            $db = Database::getInstance();
             $db->query("REPLACE INTO url_cache (url, dt_refreshed, dt_expires, data) VALUES (:url, :dt_refreshed, :dt_expires, :data)",
                        array(':url'          => $url,
                              ':dt_refreshed' => dater(),

@@ -1,0 +1,249 @@
+* {
+	padding:0;
+	margin:0;
+}
+body {
+	font-family:Verdana, Helvetica, sans-serif;
+	padding:0;
+	margin:0;
+	background-color:#272727;
+	font-size: 12px;
+	color: #eeeeee;
+	list-style-position:inside;
+	list-style-type: circle;
+}
+img {
+	border: none;
+}
+ul {
+	list-style-position:inside;
+	list-style-type: none;	
+}
+.textinput {
+	font-family:Verdana, Helvetica, sans-serif;
+	background-color: #272727;
+	border: 2px solid #719835;
+	font-size: 12px;
+	color: #eeeeee;
+	padding: 5px;
+}
+.textinput:focus {
+	outline: none;
+}
+.button {
+	text-decoration: none;
+	background-color: #272727;
+	border: 1px solid #719835;
+	font-size: 14px;
+	color: #eeeeee;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+.disabledbutton {
+	text-decoration: none;
+	background-color: #272727;
+	border: 1px solid #373737;
+	font-size: 14px;
+	color: #373737;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+.button a {
+	color: #eeeeee;
+}
+.title {
+	/*float: left;*/
+	font-size: 18px;
+	text-align: center;
+	vertical-align: middle;
+}
+.title_color1 {
+	color: #ffffff;
+	text-shadow: 2px 2px 2px #000;
+}
+.title_color2 {
+	color: #719835;
+	text-shadow: 2px 2px 2px #000;
+}
+.name {
+	color: #719835;
+}
+#container {
+	width: 480px;
+	margin: auto;
+	padding: 0;
+}
+#content {
+	width: 440px; /* 920px with border */
+	height: auto;
+	clear: both;
+	margin: auto;
+	margin-top: 40px;
+	margin-bottom: 0px;
+	padding: 20px;
+	border: 1px solid #363636;
+}
+#header {
+	width: 400px;
+	height: 150px;
+	background: url(images/arcaneCMSHeader.png) no-repeat;
+	border: none;
+	margin: auto;
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+.error p{
+	color: #ffffff;
+	text-style: bold;	
+}
+.section {
+	width: auto;
+	background-color: #2d2d2d;
+	border: 1px solid #363636;
+	border-radius: 3px;
+	padding: 10px;
+	margin-top: 7px;
+	text-shadow: 1px 1px 1px #000;
+	list-style-position:inside;
+	position: relative;
+	height:auto;
+	display:block;
+}
+.section h2{
+	padding-bottom: 5px;
+}
+.section a {
+	text-decoration: none;
+}
+.check {
+	width: auto;
+	background-color: #2d2d2d;
+	border: 1px solid #363636;
+	border-radius: 3px;
+	padding: 5px;
+	padding-left: 20px;
+	margin-top: 7px;
+	text-shadow: 1px 1px 1px #000;
+	vertical-align: middle;
+	list-style-position:inside;
+	position: relative;
+	height:auto;
+	display:block;
+}
+.check .title {
+	font-size: 24px;	
+}
+.check img {
+	vertical-align: middle;
+	margin-right: 10px;	
+}
+.check h2{
+	padding-bottom: 5px;
+}
+.check a {
+	text-decoration: none;
+}
+.subcheck {
+	width: auto;
+	background-color: #2d2d2d;
+	border: 1px solid #363636;
+	border-radius: 3px;
+	padding: 5px;
+	padding-left: 20px;
+	margin-top: 7px;
+	margin-left: 20px;
+	text-shadow: 1px 1px 1px #000;
+	vertical-align: middle;
+	list-style-position:inside;
+	position: relative;
+	height:auto;
+	display:block;
+}
+.subcheck .title {
+	font-size: 18px;	
+}
+.subcheck img {
+	vertical-align: middle;
+	margin-right: 10px;	
+}
+.subcheck h2{
+	padding-bottom: 5px;
+}
+.subcheck a {
+	text-decoration: none;
+}
+#divide {
+	clear:both;
+	width: 920px;
+	margin-top: 20px;
+}
+#footer {
+	width: 918px; /* 920px with border */
+	background-color: #2d2d2d;
+	border: 1px solid #363636;
+	border-top: none;
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+	margin: auto;
+	margin-top: 0px;
+	padding: 10px;
+	padding-left:20px;
+	padding-right:20px;
+	margin-bottom: 0px;
+	position: relative;
+	height: 15px;
+	display:block;
+	clear:both;
+}
+#lfooter {
+	float: left;
+	display: inline;
+	vertical-align: middle;
+}
+#rfooter {
+	float: right;
+	display: inline;
+	vertical-align: middle;
+}
+#rfooter img {
+	border-radius: 3px;
+}
+.clear {
+	clear: both;
+}
+.indentedlist {
+	list-style-position:inside;
+	text-indent:20px;
+}
+.right {
+	background-color: #2d2d2d;
+	border: 0px solid #363636;
+	padding: 0px;
+	margin-top: 0px;
+	margin-right:5px;
+	text-shadow: 1px 1px 1px #000;
+	list-style-position:inside;
+	position: relative;
+	display:inline;
+	clear: left;
+}
+.left {
+	/*width: 408px;*/
+	border: 0px solid #363636;
+	padding: 0px;
+	margin-top: 0px;
+	margin-right:10px;
+	text-shadow: 1px 1px 1px #000;
+	list-style-position:inside;
+	position: relative;
+	/*height:300px;*/
+	display:inline;
+	float:left;
+}
+.center {
+	text-align: center;
+	margin-left:auto;
+	margin-right:auto;
+	width:50%;
+}
+

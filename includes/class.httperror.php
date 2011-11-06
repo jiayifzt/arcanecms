@@ -17,7 +17,7 @@
 		}
 
 		// Get Singleton object
-		public static function getHTTPError()
+		public static function getInstance()
 		{
 			if(is_null(self::$me))
 				self::$me = new HTTPError();
@@ -31,8 +31,8 @@
 		}
 		private function load($statuscode)
 		{
-			$ThemeEngine = ThemeEngine::getThemeEngine();
-			$db = Database::getDatabase(true);
+			$ThemeEngine = ThemeEngine::getInstance();
+			$db = Database::getInstance();
 
 			$page = $db->escape($statuscode);
 			$result = $db->query("SELECT * FROM pages WHERE slug=$page");

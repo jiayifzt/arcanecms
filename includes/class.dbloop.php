@@ -5,6 +5,8 @@ class DBLoop implements Iterator, Countable
         private $className;
         private $extraColumns;
         private $result;
+        private $db;
+        private $DBobj;
 
         public function __construct($class_name, $sql = null, $extra_columns = array())
         {
@@ -16,16 +18,16 @@ class DBLoop implements Iterator, Countable
             if(!class_exists($class_name))
                 return;
 
-            $tmp_obj = new $class_name;
+            $DBobj = new $class_name;
 
             // Also, it needs to be a subclass of DBObject...
-            if(!is_subclass_of($tmp_obj, 'DBObject'))
+            if(!is_subclass_of($DBobj, 'DBObject'))
                 return;
 
             if(is_null($sql))
-                $sql = "SELECT * FROM {$tmp_obj->tableName}";
+                $sql = "SELECT * FROM {$DBobj->tableName}";
 
-            $db = Database::getDatabase();
+            $db = Database::getInstance();
             $this->result = $db->query($sql);
         }
 
@@ -36,8 +38,9 @@ class DBLoop implements Iterator, Countable
 
         public function current()
         {
-            mysql_data_seek($this->result, $this->position);
-            $row = mysql_fetch_array($this->result, MYSQL_ASSOC);
+            $this->result = $db->query("SELECT * FROM {$DBobj->tableName} LIMIT 1, {$this->position}");
+            
+            $row = $db->getRow($this->result);
             if($row === false)
                 return false;
 
@@ -65,15 +68,15 @@ class DBLoop implements Iterator, Countable
 
         public function valid()
         {
-            if($this->position < mysql_num_rows($this->result))
-                return mysql_data_seek($this->result, $this->position);
+            if($this->position < $db->numRows($this->result))
+                return $db->query("SELECT * FROM {$DBobj->tableName} LIMIT 1, {$this->position}");
             else
                 return false;
         }
 
         public function count()
         {
-            return mysql_num_rows($this->result);
+            return $db->numRows($this->result);
         }
     }
 ?>

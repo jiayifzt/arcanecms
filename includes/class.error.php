@@ -14,7 +14,7 @@
         }
 
         // Get Singleton object
-        public static function getError()
+        public static function getInstance()
         {
             if(is_null(self::$me))
                 self::$me = new Error();
@@ -89,7 +89,7 @@
 
             $out = '';
             foreach($this->errors as $error)
-                $out .= "<p class='alert error'>" . implode(' ', $error) . "</p>";
+                $out .= "<p class='error'>" . implode(' ', $error) . "</p>";
 
             return $out;
         }

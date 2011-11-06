@@ -56,8 +56,10 @@
 			elseif('shell' == $i_am_here)
 				$this->shell();
 			else
-				die('<h1>Where am I?</h1> <p>You need to setup your server names in <code>class.config.php</code></p>
-					<p><code>$_SERVER[\'HTTP_HOST\']</code> reported <code>' . $_SERVER['HTTP_HOST'] . '</code></p>');
+				if(!ARCANEINSTALL) {
+					die('<h1>Where am I?</h1> <p>You need to setup your server names in <code>class.config.php</code></p>
+						<p><code>$_SERVER[\'HTTP_HOST\']</code> reported <code>' . $_SERVER['HTTP_HOST'] . '</code></p>');
+				}
 		}
 
 		// Get Singleton object

@@ -7,11 +7,11 @@
  * See LICENSE for more licensing information.
  *
  * Derived from Enrober by Peter Johnson. Heavily modified from its source form.
- * 
+ *
  * Copyright (c) 2011 Peter Johnson
  *
  *     http://www.uselesscode.org/php/enrober/
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -203,7 +203,7 @@ class ThemeEngine {
 	 * of a new instance.
 	 * @returns object
 	 */
-	public static function getThemeEngine() {
+	public static function getInstance() {
 		if(!isset(self::$instance)) {
 			$c = __CLASS__;
 			self::$instance = new $c;
@@ -225,9 +225,9 @@ class ThemeEngine {
 	 * Can only be called once, subsequent calls will be ignored.  If no $theme is provided, the default
 	 * theme is explicitly set as the theme.
 	 *
-	 * Certain methods (for example {@link is_cached} and {@link get_cache_file_path}) require that the theme be 
-	 * set before they are called or they may raise warnings or errors, in these 
-	 * cases call {@link set_theme}() (with no parameters if you want to use the default 
+	 * Certain methods (for example {@link is_cached} and {@link get_cache_file_path}) require that the theme be
+	 * set before they are called or they may raise warnings or errors, in these
+	 * cases call {@link set_theme}() (with no parameters if you want to use the default
 	 * theme) to avoid errors.
 	 *
 	 * If you are using set_theme(), it must be called before go(). go() uses the default theme if one has not been
@@ -337,7 +337,7 @@ class ThemeEngine {
 	 * <code>
 	 * $ThemeEngine->add_keywords('keyword1,keyword2');
 	 * $ThemeEngine->add_keywords(array('keyword3', 'keyword4'));
-	 * // the %keywords% template tag will now output
+	 * // the {keywords} template tag will now output
 	 * // <meta name="keywords" content="keyword1,keyword2,keyword3,keyword4">
 	 * </code>
 	 */
@@ -436,7 +436,7 @@ class ThemeEngine {
 			$this->add_tag('canonical', '<link rel="canonical" href="' . $url . '">', 1, false);
 		}
 		
-		// Use the %siteurl% tag to link to the root of your Arcane powered site.
+		// Use the {siteurl} tag to link to the root of your Arcane powered site.
 		// e.g. http://www.example.com/arcane (note the missing trailing slash)
 		$this->add_tag('siteurl', ARCANE_SITE_URL, 0, false);
 		
@@ -485,14 +485,14 @@ class ThemeEngine {
 				// Load header
 				$header = file_get_contents($theme_fs_path . $head_file);
 
-				// Process all of the %tags% for the head
+				// Process all of the {tags} for the head
 				if(count($tag_head_stack) > 0) {
 					foreach($tag_head_stack as $tag) {
-						$header = str_replace('%' . $tag['name'] . '%', $tag['value'], $header);
+						$header = str_replace('{' . $tag['name'] . '}', $tag['value'], $header);
 					}
 				}
 				// Remove misc add_tag tags that were not processed
-				$header = preg_replace('/%[^%\s]*%/', '', $header);
+				$header = preg_replace('/{[^{}\s]*}/', '', $header);
 
 				$header = $apply_filters($header, $filter_head_stack);
 			}
@@ -500,7 +500,7 @@ class ThemeEngine {
 			return $header;
 		};
 
-		// The callback must be an anonymous function so we can use closure to pass 
+		// The callback must be an anonymous function so we can use closure to pass
 		// variables into the callback.
 		//
 		// Reminder: In PHP anonymous functions are early binding, pass variables
@@ -513,14 +513,14 @@ class ThemeEngine {
 			$theme_config,
 			$apply_filters
 		) {
-			// Process all of the %tags% for the body
+			// Process all of the {tags} for the body
 			if(count($tag_body_stack) > 0) {
 				foreach($tag_body_stack as $tag) {
-					$body = str_replace('%' . $tag['name'] . '%', $tag['value'], $body);
+					$body = str_replace('{' . $tag['name'] . '}', $tag['value'], $body);
 				}
 			}
 			// Remove misc add_tag tags that were not processed
-			$body = preg_replace('/%[^%\s]*%/', '', $body);
+			$body = preg_replace('/{[^{}\s]*}/', '', $body);
 				
 			$body = $apply_filters($body, $filter_body_stack);
 
@@ -538,15 +538,15 @@ class ThemeEngine {
 				// Non-XHR, load footer a usual
 				$footer = file_get_contents($theme_fs_path . $foot_file);
 
-				// Process all of the %tags% for the foot
+				// Process all of the {tags} for the foot
 				if(count($tag_foot_stack) > 0) {
 					foreach($tag_foot_stack as $tag) {
-						$footer = str_replace('%' . $tag['name'] . '%', $tag['value'], $footer);
+						$footer = str_replace('{' . $tag['name'] . '}', $tag['value'], $footer);
 					}
 				}
 
 				// Remove misc add_tag tags that were not processed
-				$footer = preg_replace('/%[^%\s]*%/', '', $footer);
+				$footer = preg_replace('/{[^{}\s]*}/', '', $footer);
 
 				$footer = $apply_filters($footer, $filter_foot_stack);
 			}
@@ -564,7 +564,7 @@ class ThemeEngine {
 			}
 		}; // Anon function, the ; is needed  here!
 
-			// Maintenance mode is off or this page is allowed during maintenance, 
+			// Maintenance mode is off or this page is allowed during maintenance,
 			// proceed as usual.
 
 			// If it's not an XHR request
@@ -598,13 +598,13 @@ class ThemeEngine {
 					flush();
 				}
 			}
-			ob_start($enrobe_callback); 
+			ob_start($enrobe_callback);
 		}
 		// Function ends, normal page logic takes over; ob_ callbacks end when page ends
 	
 
 	/**
-	 * Adds a CSS file to be inserted at the %css% tag.
+	 * Adds a CSS file to be inserted at the {css} tag.
 	 * If a stylesheet is added a second time it is ignored.
 	 *
 	 * <code>
@@ -668,9 +668,9 @@ class ThemeEngine {
 	}
 
 	/**
-	 * Adds a JavaScript file to be linked via the %js% tag.
+	 * Adds a JavaScript file to be linked via the {js} tag.
 	 * If a script is added a second time it is ignored.
-	 * 
+	 *
 	 * @param string $filepath The url of the JavaScript file to add absolute or relative to the calling script.
 	 *
 	 * <code>
@@ -722,7 +722,7 @@ class ThemeEngine {
 	 * // This filter function collapses any whitespace
 	 * // between HTML tags down to a single space
 	 * function collapse_whitespace($in) {
-	 * 	return preg_replace('/>\s+</','> <', $in); 
+	 * 	return preg_replace('/>\s+</','> <', $in);
 	 * }
 	 *
 	 * // add our custom filter, filtering everything
@@ -747,7 +747,7 @@ class ThemeEngine {
 		if ($filter === 'ob_gzhandler') {
 			trigger_error("Can not add ob_gzhandler as a filter, ThemeEngine automatically wraps your page with it already.", E_USER_WARNING);
 			return;
-		}	
+		}
 
 		if ($filter_mode === THEMEENGINE_FILTER_ALL) {
 			$this->filter_head_stack[] = $filter;
@@ -785,27 +785,27 @@ class ThemeEngine {
 	 *
 	 * ThemeEngine tags allow you to specify where things ThemeEngine generates are injected into the theme. There are a number of built in tags:
 	 * <ul>
-	 * <li>%title% - The page's <title> tag</li>
-	 * <li>%desc% - The page's description <meta> tag</li>
-	 * <li>%keywords% - The page's keywords <meta> tag</li>
-	 * <li>%themepath% - The URI for the directory that the current theme is stored in, useful for including the theme's CSS file.</li>
-	 * <li>%css% - Any <link> tags for CSS files added via $ThemeEngine->add_css()</li>
-	 * <li>%js% - Any <script> tags for JavaScript files added via $ThemeEngine->add_js()</li>
-	 * <li>%generated% - Inserts a "Generated on" or "Cached on" message depending on whether or not caching is enabled on the current page.</li>
-	 * <li>%canonical% - Where in the head to insert the Canonical URL if one was set with $ThemeEngine->url()</li>
-	 * <li>%site_name% - The value for ARCANE_SITE_NAME specified in class.config.php</li>
-	 * <li>%tagline% - The value for ARCANE_TAGLINE specified in class.config.php</li>
-	 * <li>%siteurl% - The value for ARCANE_SITE_URL specified in class.config.php</li>
-	 * <li>%contentdir% - The URI of the content directory.</li>
+	 * <li>{title} - The page's <title> tag</li>
+	 * <li>{desc} - The page's description <meta> tag</li>
+	 * <li>{keywords} - The page's keywords <meta> tag</li>
+	 * <li>{themepath} - The URI for the directory that the current theme is stored in, useful for including the theme's CSS file.</li>
+	 * <li>{css} - Any <link> tags for CSS files added via $ThemeEngine->add_css()</li>
+	 * <li>{js} - Any <script> tags for JavaScript files added via $ThemeEngine->add_js()</li>
+	 * <li>{generated} - Inserts a "Generated on" or "Cached on" message depending on whether or not caching is enabled on the current page.</li>
+	 * <li>{canonical} - Where in the head to insert the Canonical URL if one was set with $ThemeEngine->url()</li>
+	 * <li>{site_name} - The value for ARCANE_SITE_NAME specified in class.config.php</li>
+	 * <li>{tagline} - The value for ARCANE_TAGLINE specified in class.config.php</li>
+	 * <li>{siteurl} - The value for ARCANE_SITE_URL specified in class.config.php</li>
+	 * <li>{contentdir} - The URI of the content directory.</li>
 	 * </ul>
-	 * 
+	 *
 	 * If you add your own tags to your templates you can then set their value for any particular page with add_tag().
-	 * 
+	 *
 	 *
 	 * <code>
 	 * <?php
-	 * $ThemeEngine->add_tag('foo', 'bar'); // Adds the text "bar" anywhere in the 
-	 *                                  // header or footer that "%foo%" appears
+	 * $ThemeEngine->add_tag('foo', 'bar'); // Adds the text "bar" anywhere in the
+	 *                                  // header or footer that "{foo}" appears
 	 * $ThemeEngine->add_tag('foo', 'bar', 0); // Same as previous
 	 * $ThemeEngine->add_tag('foo', 'bar', 1); // Adds the text "bar" only in the header
 	 * $ThemeEngine->add_tag('foo', 'bar', 2); // Adds the text "bar" only in the footer
@@ -824,14 +824,14 @@ class ThemeEngine {
 	 * ?>
 	 * </code>
 	 *
-	 * @param string $name The name of the theme tag to define (sans %%)
+	 * @param string $name The name of the theme tag to define (sans {})
 	 * @param string $value The value to insert at the new theme tag
 	 * @param integer $location Where to process the tag.  0 = Everywhere!, 1 = Header only, 2 = Body Only, 3 = Footer only
 	 * @param bool $sanitize If true, the $value is run through htmlentities() before inclusion in the page. Set to false if you need to include HTML, but you will need to sanitize any user input you include yourself!
 	 */
 	public function add_tag($name, $value, $location = 0, $sanitize = true) {
 
-		$name = preg_replace('/^%|%$/', '', $name);
+		$name = preg_replace('/^{|}$/', '', $name);
 
 		if ($sanitize !== false) {
 			$value = htmlentities($value);
@@ -851,10 +851,10 @@ class ThemeEngine {
 	}
 
 	/**
-	 * Sets/gets the canonical URL for the page to be inserted at the %canonical% tag.
+	 * Sets/gets the canonical URL for the page to be inserted at the {canonical} tag.
 	 *
-	 * If called with no arguments or with null, returns the current canonical url. 
-	 * If an empty string, removes the canonical url.  If it is anything else it 
+	 * If called with no arguments or with null, returns the current canonical url.
+	 * If an empty string, removes the canonical url.  If it is anything else it
 	 * is set as the canonical url.
 	 *
 	 * Google's webmaster central has more information about {@link http://www.google.com/support/webmasters/bin/answer.py?answer=139066 canonical URLs}.
@@ -892,7 +892,7 @@ class ThemeEngine {
 	}
 
 	/**
-	 * Returns a string containing <script> tags to add to the document via the %js% tag
+	 * Returns a string containing <script> tags to add to the document via the {js} tag
 	 * @returns string
 	 */
 	private function get_js() {

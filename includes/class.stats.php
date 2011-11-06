@@ -11,7 +11,7 @@
 
         }
 
-        public function getStats()
+        public function getInstance()
         {
             if(is_null(self::$me))
                 self::$me = new Stats();
@@ -20,7 +20,7 @@
 
         public static function track($page_title = '')
         {
-            $db = Database::getDatabase();
+            $db = Database::getInstance();
 
             $dt               = dater();
             $referer          = getenv('HTTP_REFERER');

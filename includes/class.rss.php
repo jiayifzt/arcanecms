@@ -23,7 +23,7 @@
         }
 		
 		// Get Singleton object 
-        public static function getRSS() 
+        public static function getInstance() 
         { 
             if(is_null(self::$me)) 
                 self::$me = new RSS(); 
@@ -46,21 +46,21 @@
         {
             $this->tags[$tag] = $value;
         }	
-	
-        public function loadRecordset($result, $title, $link, $description, $pub_date)
+		
+        public function loadRecordset($result, $title, $slug, $description, $pub_date)
         {
-            $db = Database::getDatabase();
+            $db = Database::getInstance();
             while($row = $db->getRow($result))
             {
                 $item = new RSSItem();
                 $item->title       = $row[$title];
-                $item->link        = $row[$link];
+                $item->link        = ARCANE_SITE_URL.'/blog/view/'.$row[$slug];
                 $item->description = $row[$description];
                 $item->setPubDate($row[$pub_date]);
                 $this->addItem($item);
             }
         }
-
+		
         public function out()
         {
             $bad         = array('&', '<');

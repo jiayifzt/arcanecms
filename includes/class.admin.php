@@ -8,7 +8,7 @@
             
         }
 
-        public static function getAdmin()
+        public static function getInstance()
         {
             if(is_null(self::$me))
             {

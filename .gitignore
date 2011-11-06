@@ -3,3 +3,8 @@ content/images/*
 db/*.sqlite
 db/*.db
 includes/class.config.php
+.settings/*
+.project
+.buildpath
+nbproject/*
+.metadata/*

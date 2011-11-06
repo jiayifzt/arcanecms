@@ -22,6 +22,7 @@ CREATE TABLE `blog` (
   `title` varchar(65) NOT NULL DEFAULT '',
   `slug` varchar(65) NOT NULL DEFAULT '',
   `data` text NOT NULL,
+  `status` varchar(65) NOT NULL DEFAULT 'draft',
   `pubDate` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY ('id'),
   UNIQUE KEY `slug` (`slug`)

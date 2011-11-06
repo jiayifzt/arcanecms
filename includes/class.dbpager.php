@@ -11,8 +11,9 @@
             $this->countSql  = $countSql;
             $this->pageSql   = $pageSql;
 
-            $db = Database::getDatabase();
+            $db = Database::getInstance();
             $num_records = intval($db->getValue($countSql));
+            print_r("Num records: $num_records\n");
 
             parent::__construct($page, $per_page, $num_records);
         }
@@ -22,7 +23,13 @@
             parent::calculate();
             // load records .. see $this->firstRecord, $this->perPage
             $limitSql = sprintf(' LIMIT %s,%s', $this->firstRecord, $this->perPage);
-            $this->records = array_values(DBObject::glob($this->itemClass, $this->pageSql . $limitSql));
+            $stuff = DBObject::glob($this->itemClass, $this->pageSql . $limitSql);
+            print_r("Stuff: $stuff");
+            $this->records = array_values($stuff);
+        }
+        public function results()
+        {
+        	return $this->records;
         }
     }
 ?>

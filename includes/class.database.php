@@ -47,7 +47,7 @@
         } 
 
         // Get Singleton object 
-        public static function getDatabase() 
+        public static function getInstance() 
         { 
             if(is_null(self::$me)) 
                 self::$me = new Database(); 
@@ -114,7 +114,12 @@
 			$this->result->execute($args_to_prepare);
 			return $this->result;
         } 
-
+		public function showColumns($arg)
+		{
+			if($this->isMySQL())
+				return $this->query("SHOW COLUMNS FROM $arg");
+			else return $this->query("PRAGMA table_info($arg);");
+		}
         // Returns the number of rows. 
         // You can pass in nothing, a string, or a db result 
         public function numRows($arg = null) 

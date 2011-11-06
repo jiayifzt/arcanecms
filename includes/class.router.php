@@ -1,8 +1,13 @@
 <?php
 
 	// Derived from http://blog.sosedoff.com/2009/09/20/rails-like-php-url-router/
-	define('ROUTER_DEFAULT_CONTROLLER', 'node');
-	define('ROUTER_DEFAULT_ACTION', 'home');
+	if(ARCANEINSTALL) {
+		define('ROUTER_DEFAULT_CONTROLLER', 'install');
+		define('ROUTER_DEFAULT_ACTION', 'step1');
+	} else {
+		define('ROUTER_DEFAULT_CONTROLLER', 'node');
+		define('ROUTER_DEFAULT_ACTION', 'index');
+	}
 	 
 	class Router {
 		
@@ -26,7 +31,7 @@
 		}
 		
 		// Get Singleton object
-		public static function getRouter()
+		public static function getInstance()
 		{
 			if(is_null(self::$me))
 				self::$me = new Router();
@@ -45,8 +50,12 @@
 		}
 
 		public function default_routes() {
-			$this->map('/', array('controller' => 'node', 'action' => 'home')); // main page will call controller "Home" with method "index()"
-			$this->map('/rss', array('controller' => 'node', 'action' => 'rss'));
+			if(ARCANEINSTALL) $this->map('/', array('controller' => 'install', 'action' => 'step1')); // main page will load the installer
+			else $this->map('/', array('controller' => 'node')); // main page will call controller "Home" with method "index()"
+			$this->map('/install', array('controller' => 'install', 'action' => 'step1'));
+			$this->map('/rss', array('controller' => 'blog', 'action' => 'rss'));
+			$this->map('/blog', array('controller' => 'blog', 'action' => 'page', 'id' => '1'));
+			$this->map('/blog/:id', array('controller' => 'blog', 'action' => 'view'));
 			$this->map('/login', array('controller' => 'auth', 'action' => 'login'));
 			$this->map('/logout', array('controller' => 'auth', 'action' => 'logout'));
 			$this->map('/error400', array('controller' => 'httperror', 'action' => 'load400'));
@@ -112,7 +121,7 @@
 				foreach($target as $key => $value) $this->params[$key] = $value;
 				$this->is_matched = true;
 			}
-			unset($p_names); 
+			unset($p_names);
 			unset($p_values);
 		}
 
@@ -120,7 +129,7 @@
 			$key = str_replace(':', '', $matches[0]);
 			if (array_key_exists($key, $this->conditions)) {
 				return '('.$this->conditions[$key].')';
-			} 
+			}
 			else {
 				return '([a-zA-Z0-9_\+\-%]+)';
 			}

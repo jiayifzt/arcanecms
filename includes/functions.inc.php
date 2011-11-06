@@ -1,13 +1,13 @@
 <?php
     function set_option($key, $val)
     {
-        $db = Database::getDatabase();
+        $db = Database::getInstance();
         $db->query('REPLACE INTO options (key, value) VALUES (:key, :value)', array(':key' => $key, ':value' => $val));
     }
 
     function get_option($key, $default = null)
     {
-        $db = Database::getDatabase();
+        $db = Database::getInstance();
         $db->query('SELECT value FROM options WHERE key = :key', array(':key' => $key));
         if($db->hasRows())
             return $db->getValue();
@@ -17,7 +17,7 @@
 
     function delete_option($key)
     {
-        $db = Database::getDatabase();
+        $db = Database::getInstance();
         $db->query('DELETE FROM options WHERE key = :key', array(':key' => $key));
         return $db->affectedRows();
     }
@@ -155,7 +155,7 @@
     // table name, column to use as value, column(s) to use as text, default value(s) to select (can accept an array of values), extra sql to limit results
     function get_options($table, $val, $text, $default = null, $sql = '')
     {
-        $db = Database::getDatabase(true);
+        $db = Database::getInstance();
         $out = '';
 
         $table = $db->escape($table);
@@ -471,9 +471,9 @@
     }
 	
 	// Returns an array containing the user agent, browser name, version, and platform.
-	function getBrowser() 
-	{ 
-		$u_agent = $_SERVER['HTTP_USER_AGENT']; 
+	function getBrowser()
+	{
+		$u_agent = $_SERVER['HTTP_USER_AGENT'];
 		$bname = 'Unknown';
 		$platform = 'Unknown';
 		$version= "";
@@ -490,36 +490,36 @@
 		}
 		
 		// Next get the name of the useragent yes seperately and for good reason
-		if(preg_match('/MSIE/i',$u_agent) && !preg_match('/Opera/i',$u_agent)) 
-		{ 
-			$bname = 'Internet Explorer'; 
-			$ub = "MSIE"; 
-		} 
-		elseif(preg_match('/Firefox/i',$u_agent)) 
-		{ 
-			$bname = 'Mozilla Firefox'; 
-			$ub = "Firefox"; 
-		} 
-		elseif(preg_match('/Chrome/i',$u_agent)) 
-		{ 
-			$bname = 'Google Chrome'; 
-			$ub = "Chrome"; 
-		} 
-		elseif(preg_match('/Safari/i',$u_agent)) 
-		{ 
-			$bname = 'Apple Safari'; 
-			$ub = "Safari"; 
-		} 
-		elseif(preg_match('/Opera/i',$u_agent)) 
-		{ 
-			$bname = 'Opera'; 
-			$ub = "Opera"; 
-		} 
-		elseif(preg_match('/Netscape/i',$u_agent)) 
-		{ 
-			$bname = 'Netscape'; 
-			$ub = "Netscape"; 
-		} 
+		if(preg_match('/MSIE/i',$u_agent) && !preg_match('/Opera/i',$u_agent))
+		{
+			$bname = 'Internet Explorer';
+			$ub = "MSIE";
+		}
+		elseif(preg_match('/Firefox/i',$u_agent))
+		{
+			$bname = 'Mozilla Firefox';
+			$ub = "Firefox";
+		}
+		elseif(preg_match('/Chrome/i',$u_agent))
+		{
+			$bname = 'Google Chrome';
+			$ub = "Chrome";
+		}
+		elseif(preg_match('/Safari/i',$u_agent))
+		{
+			$bname = 'Apple Safari';
+			$ub = "Safari";
+		}
+		elseif(preg_match('/Opera/i',$u_agent))
+		{
+			$bname = 'Opera';
+			$ub = "Opera";
+		}
+		elseif(preg_match('/Netscape/i',$u_agent))
+		{
+			$bname = 'Netscape';
+			$ub = "Netscape";
+		}
 		
 		// finally get the correct version number
 		$known = array('Version', $ub, 'other');
@@ -652,8 +652,13 @@
 
     function __autoload($class_name)
     {
-        if(file_exists(DOC_ROOT.'/includes/class.'.strtolower($class_name).'.php'))
+        if(strtolower($class_name) == 'config' && !file_exists(DOC_ROOT.'includes/class.config.php'))
+        	include DOC_ROOT.'/includes/class.config.php.sample';
+        if(strtolower($class_name) == 'config' && file_exists(DOC_ROOT.'includes/class.config.php'))
+        	require_once DOC_ROOT.'/includes/class.config.php';
+    	if(strtolower($class_name) != 'config' && file_exists(DOC_ROOT.'/includes/class.'.strtolower($class_name).'.php'))
             require_once DOC_ROOT.'/includes/class.'.strtolower($class_name).'.php';
+        
     }
 
     // Returns a file's mimetype based on its extension

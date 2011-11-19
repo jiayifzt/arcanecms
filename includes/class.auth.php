@@ -25,7 +25,7 @@
             $this->user       = new User();
         }
 
-        public static function getAuth()
+        public static function getInstance()
         {
             if(is_null(self::$me))
             {

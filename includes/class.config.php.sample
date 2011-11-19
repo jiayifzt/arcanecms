@@ -18,7 +18,7 @@
 		private $stagingServers    = array('/^beta.example\.com$/');
 		private $localServers      = array('/^example\.dev$/');
 
-		// Standard Config Options...
+		// Standard Config Options... (DO NOT EDIT THESE, edit in the relevant sections for each server)
 
 		// ...For Auth Class
 		public $authDomain;         // Domain to set for the cookie
@@ -26,13 +26,10 @@
 
 		// ...For Database Class
 		public $dbType; // Database type (mysql or sqlite)
-		public $dbReadHost;   // Database read-only server
-		public $dbWriteHost;  // Database read/write server
-		public $dbName;
-		public $dbReadUsername;
-		public $dbWriteUsername;
-		public $dbReadPassword;
-		public $dbWritePassword;
+		public $dbHost;   // Database server (mysql only)
+		public $dbName; // Database name (mysql: schema name, sqlite: file name)
+		public $dbUsername; // Database username (mysql only)
+		public $dbPassword; // Database password (mysql only)
 
 		public $dbOnError; // What do do on a database error (see class.database.php for details)
 		public $dbEmailOnError; // Email an error report on error?

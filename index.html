@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+
+  <title>maxfierke/arcanecms @ GitHub</title>
+
+  <style type="text/css">
+    body {
+      margin-top: 1.0em;
+      background-color: #353536;
+      font-family: Helvetica, Arial, FreeSans, san-serif;
+      color: #ffffff;
+    }
+    #container {
+      margin: 0 auto;
+      width: 700px;
+    }
+    h1 { font-size: 3.8em; color: #cacac9; margin-bottom: 3px; }
+    h1 .small { font-size: 0.4em; }
+    h1 a { text-decoration: none }
+    h2 { font-size: 1.5em; color: #cacac9; }
+    h3 { text-align: center; color: #cacac9; }
+    a { color: #cacac9; }
+    .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
+    .download { float: right; }
+    pre { background: #000; color: #fff; padding: 15px;}
+    hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
+    .footer { text-align:center; padding-top:30px; font-style: italic; }
+  </style>
+</head>
+
+<body>
+  <a href="https://github.com/maxfierke/arcanecms"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
+
+  <div id="container">
+
+    <div class="download">
+      <a href="https://github.com/maxfierke/arcanecms/zipball/master">
+        <img border="0" width="90" src="https://github.com/images/modules/download/zip.png"></a>
+      <a href="https://github.com/maxfierke/arcanecms/tarball/master">
+        <img border="0" width="90" src="https://github.com/images/modules/download/tar.png"></a>
+    </div>
+
+    <h1><a href="https://github.com/maxfierke/arcanecms">arcanecms</a>
+      <span class="small">by <a href="https://github.com/maxfierke">maxfierke</a></span></h1>
+
+    <div class="description">
+      A rewrite of my former content management system. Designed to be simple for developers, lightweight for site owners, and invisible to visitors.
+    </div>
+
+    
+      <p>==================================================================================
+            _                              ____ __  __ ____  
+           / \   _ __ ___ __ _ _ __   ___ / ___|  \/  / ___| 
+          / _ \ | '__/ __/ _` | '_ \ / _ \ |   | |\/| \___ \ 
+         / ___ \| | | (__ (_| | | | |  __/ |___| |  | |___) |
+        /_/   \_\_|  \___\__,_|_| |_|\___|\____|_|  |_|____/ 
+                            ArcaneCMS
+                https://github.com/maxfierke/arcanecms
+                   http://www.maxfierke.com/projects
+==================================================================================
+
+Who are you?
+	http://www.maxfierke.com/about
+	
+What is this?
+	ArcaneCMS is a content management system written in PHP. It's a rewrite of 
+	my former personal content management system. ArcaneCMS is designed to be 
+	lightweight, simple to implement into existing designs and sites, and almost
+	invisible to the visitor (unlike certain CMSs *cough*JoomlaAndDrupal*cough*).
+	ArcaneCMS runs on a modified version of the Simple PHP Framework. 
+	More details in LICENSE.
+
+Why?!?
+	Because I can :)
+
+How do I use it?
+	Short Answer: 	You can't (yet).
+	Long Answer: 	You can, but I haven't really gotten far enough to make it
+			convenient for you. There's no installer, there's no admin
+			interface (yet). There's minimal documentation. It's simple 
+			enough that you should be able to figure it out if you dig 
+			through the code and the included database file.
+
+Where/How can I use this?
+	See LICENSE
+
+Will you add <insert feature here>?
+	Very possibly. If you make a good case for it or it's something that belongs
+	in a content management system, I'll put it on my todo list.
+
+How can I help?
+	1) Email me at max@maxfierke.com
+	2) Design a theme for inclusion in every installation of Arcane. 
+		(Just create a single page and a CSS stylesheet and any images needed, 
+		I will convert it for use in Arcane and maintain it. You will get a 
+		"Designed by <Yourname>" and a link back to your site). The theme will
+		need to be licensed under a license compatible with the Apache License
+		version 2.0.
+	3) Submit feature requests, bug reports, etc. at: 
+		https://groups.google.com/group/arcanecms/
+	4) Fork it, submit a pull request and if I like your changes, I'll merge 'em.</p>
+    
+
+    
+      <h2>Dependencies</h2>
+      <p>PHP 5.3 with PDO (I still need to test with 5.4, but it should work)
+	SQL server (MySQL and SQLite are implemented and officially supported. Postgre support will be added soon. Any PDO supported database should work (in theory), but you need to add it yourself and replace any incompatible SQL with database-dependent SQL. Look at the Database class (class.database.php) in the includes directory)
+	A webserver with rewrite functionality (I officially support Apache and nginx)</p>
+    
+
+    
+      <h2>Install</h2>
+      <p>See INSTALL</p>
+    
+
+    
+      <h2>License</h2>
+      <p>Licensed under Apache License 2.0</p>
+    
+
+    
+      <h2>Authors</h2>
+      <p>Max Fierke (max@maxfierke.com)</p>
+    
+
+    
+      <h2>Contact</h2>
+      <p>Max Fierke (max@maxfierke.com)</p>
+    
+
+    <h2>Download</h2>
+    <p>
+      You can download this project in either
+      <a href="https://github.com/maxfierke/arcanecms/zipball/master">zip</a> or
+      <a href="https://github.com/maxfierke/arcanecms/tarball/master">tar formats.
+    </p>
+    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
+      by running:
+      <pre>$ git clone git://github.com/maxfierke/arcanecms</pre>
+    </p>
+
+    <div class="footer">
+      get the source code on GitHub : <a href="https://github.com/maxfierke/arcanecms">maxfierke/arcanecms</a>
+    </div>
+
+  </div>
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-10002274-3");
+pageTracker._trackPageview();
+} catch(err) {}</script>"
+</body>
+</html>

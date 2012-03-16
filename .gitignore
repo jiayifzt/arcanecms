@@ -8,3 +8,4 @@ includes/class.config.php
 .buildpath
 nbproject/*
 .metadata/*
+*~

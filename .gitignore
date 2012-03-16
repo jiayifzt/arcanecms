@@ -1,0 +1,8 @@
+content/*
+db/*
+includes/*
+themes/*
+.settings/*
+.buildpath
+.project
+*~

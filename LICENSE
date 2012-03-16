@@ -1,6 +1,6 @@
 *  ArcaneCMS
 *
-*  Copyright (c) 2011 Max Fierke <max@maxfierke.com>
+*  Copyright (c) 2011-2012 Max Fierke <max@maxfierke.com>
 * 
 *  Licensed under the Apache License, Version 2.0 (the "License");
 *  you may not use this file except in compliance with the License.
@@ -15,11 +15,11 @@
 *  limitations under the License.
 *
 *
-* Portions based on Simple PHP Framework are used and were modified in accordance with the MIT License 
-* <http://www.opensource.org/licenses/mit-license.php> 
+*  Portions based on Simple PHP Framework are used and were modified in accordance with the MIT License 
+*  <http://www.opensource.org/licenses/mit-license.php> 
 *
-* Copyright (c) 2006 - 2011, Simple PHP Framework <tylerhall@gmail.com>)
+*  Copyright (c) 2006 - 2011, Simple PHP Framework <tylerhall@gmail.com>
 *
-* http://github.com/tylerhall/simple-php-framework/
+*  http://github.com/tylerhall/simple-php-framework/
 *
 

@@ -1,4 +1,4 @@
-==================================================================================
+================================================================================
             _                              ____ __  __ ____  
            / \   _ __ ___ __ _ _ __   ___ / ___|  \/  / ___| 
           / _ \ | '__/ __/ _` | '_ \ / _ \ |   | |\/| \___ \ 
@@ -7,53 +7,54 @@
                             ArcaneCMS
                 https://github.com/maxfierke/arcanecms
                    http://www.maxfierke.com/projects
-==================================================================================
+================================================================================
 
 Who are you?
-	http://www.maxfierke.com/about
+    http://www.maxfierke.com/about
 	
 What is this?
-	ArcaneCMS is a content management system written in PHP. It's a rewrite of 
-	my former personal content management system. ArcaneCMS is designed to be 
-	lightweight, simple to implement into existing designs and sites, and almost
-	invisible to the visitor (unlike certain CMSs *cough*JoomlaAndDrupal*cough*).
-	ArcaneCMS runs on a modified version of the Simple PHP Framework. 
-	More details in LICENSE.
+    ArcaneCMS is a content management system written in PHP. It's a rewrite of 
+    my former personal content management system. ArcaneCMS is designed to be 
+    lightweight, simple to implement into existing designs and sites, and almost
+    invisible to the visitor (unlike certain CMSs *cough*Joomla&Drupal*cough*).
+    ArcaneCMS runs on a modified version of the Simple PHP Framework. 
+    More details in LICENSE.
 
 Why?!?
-	Because I can :)
+    Because I can :)
 
 How do I use it?
-	Short Answer: 	You can't (yet).
-	Long Answer: 	You can, but I haven't really gotten far enough to make it
-			convenient for you. There's no installer, there's no admin
-			interface (yet). There's minimal documentation. It's simple 
-			enough that you should be able to figure it out if you dig 
-			through the code and the included database file.
+    Short Answer:   You can't (yet).
+    Long Answer:    You can, but I haven't really gotten far enough to make it
+        convenient for you. There's no installer, there's no admin interface 
+        (yet). There's minimal documentation. It's simple enough that you should
+        be able to figure it out if you dig through the code and the included 
+        database file.
 What are the requirements?
-	PHP 5.3 with PDO (Installed by default) (5.2 may work, but I won't support it)
-	SQL server (MySQL and SQLite are implemented and officially supported. Postgre 
-			support will be added soon. Any PDO supported database should
-			work, but you need to add it yourself. Look at the Database
-			class (class.database.php) in the includes directory)
-	A webserver with rewrite functionality (I officially support Apache and nginx)
-	See INSTALL
+    PHP 5.3 with PDO (I still need to test with 5.4, but it should work)
+    SQL server (MySQL and SQLite are implemented and officially supported. 
+        Postgre support will be added soon. Any PDO supported database should 
+        work (in theory), but you need to add it yourself and replace any
+        incompatible SQL with database-dependent SQL. Look at the Database class
+        (class.database.php) in the includes directory)
+    A webserver with rewrite functionality (I support Apache and nginx)
+    See INSTALL
 
 Where/How can I use this?
-	See LICENSE
+    See LICENSE
 
 Will you add <insert feature here>?
-	Very possibly. If you make a good case for it or it's something that belongs
-	in a content management system, I'll put it on my todo list.
+    Very possibly. If you make a good case for it or it's something that belongs
+    in a content management system, I'll put it on my todo list.
 
 How can I help?
-	1) Email me at max@maxfierke.com
-	2) Design a theme for inclusion in every installation of Arcane. 
-		(Just create a single page and a CSS stylesheet and any images needed, 
-		I will convert it for use in Arcane and maintain it. You will get a 
-		"Designed by <Yourname>" and a link back to your site). The theme will
-		need to be licensed under a license compatible with the Apache License
-		version 2.0.
-	3) Submit feature requests, bug reports, etc. at: 
-		https://groups.google.com/group/arcanecms/
-	4) Fork it, submit a pull request and if I like your changes, I'll merge 'em.
+    1) Email me at max@maxfierke.com
+    2) Design a theme for inclusion in every installation of Arcane. 
+        (Just create a single page and a CSS stylesheet and any images needed, I
+        will convert it for use in Arcane and maintain it. You will get a 
+        "Designed by <Yourname>" and a link back to your site). The theme will
+        need to be licensed under a license compatible with the Apache License
+        version 2.0.
+    3) Submit feature requests, bug reports, etc. at: 
+        https://groups.google.com/group/arcanecms/
+    4) Fork it, do a pull request and if I like your changes, I'll merge 'em.

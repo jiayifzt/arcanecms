@@ -15,15 +15,15 @@ INSTALL INSTRUCTIONS:
 
 SERVER SETUP:
 
-	Apache Instructions:
-		* Enable mod_rewrite
-		* Use the included .htaccess files
+    Apache Instructions:
+        * Enable mod_rewrite
+        * Use the included .htaccess files
 	
-	nginx Instructions:
-		* Use ProxyPass to an internal Apache server handling your site
-		or
-		* Check out the example configuration file: 
+    nginx Instructions:
+        * Use ProxyPass to an internal Apache server handling your site
+        or
+        * Check out the example configuration file: 
 				INSTALL.nginx (requires nginx >= 0.7.27)
 
-	IIS, Lighttpd, and all other web servers:
-		* You're on your own.
+    IIS, Lighttpd, and all other web servers:
+        * You're on your own.
